@@ -73,6 +73,7 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
+      aria-label="About Vultus Go"
       className="relative w-full py-24 lg:py-32 overflow-hidden bg-amber-50"
     >
       {/* Background Glows */}
@@ -88,7 +89,7 @@ const About = () => {
           >
             {/* Section Label */}
             <span className="text-[10px] font-black tracking-[0.2em] text-orange-600 uppercase inline-block">
-              ABOUT VULTUSGO
+              ABOUT VULTUS GO
             </span>
 
             {/* Heading */}
@@ -98,11 +99,11 @@ const About = () => {
 
             {/* Company Description */}
             <p className="text-lg text-gray-600 leading-relaxed">
-              VultusGo is a pioneering technology company dedicated to crafting
+              Vultus Go is a pioneering technology company dedicated to crafting
               intelligent software products, AI-powered solutions, and
-              innovative digital systems. We empower organizations to automate
-              complex processes, significantly improve operational efficiency,
-              and confidently embrace the future of technology.
+              innovative digital systems. VultusGo empowers organizations to
+              automate complex processes, significantly improve operational
+              efficiency, and confidently embrace the future of technology.
             </p>
 
             {/* Mission Statement */}
@@ -111,9 +112,9 @@ const About = () => {
                 Our Mission
               </h3>
               <p className="text-gray-700">
-                To deliver transformative digital solutions that drive progress,
-                foster innovation, and create lasting value for our clients
-                worldwide.
+                Vultus Go's mission is to deliver transformative digital
+                solutions that drive progress, foster innovation, and create
+                lasting value for our clients worldwide.
               </p>
             </div>
 
@@ -125,7 +126,8 @@ const About = () => {
               <p className="text-gray-700">
                 To be the leading force in intelligent software development,
                 recognized for our commitment to excellence, ethical AI, and a
-                future where technology serves humanity.
+                future where technology serves humanity — that is the vision of
+                Vultus Go.
               </p>
             </div>
           </div>

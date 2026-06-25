@@ -49,6 +49,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
+      aria-label="Contact Vultus Go"
       className="relative w-full py-24 lg:py-32 bg-white overflow-hidden"
     >
       {/* Background Aesthetics */}
@@ -135,14 +136,17 @@ const Contact = () => {
               </p>
               <div className="flex gap-4">
                 {[
-                  { icon: FaLinkedin, link: "#" },
-                  { icon: FaGithub, link: "#" },
-                  { icon: FaXTwitter, link: "#" },
-                  { icon: FaInstagram, link: "#" },
+                  { icon: FaLinkedin, link: "https://www.linkedin.com/company/vultusgo", label: "Vultus Go on LinkedIn" },
+                  { icon: FaGithub, link: "https://github.com/vultusgo", label: "Vultus Go on GitHub" },
+                  { icon: FaXTwitter, link: "https://twitter.com/vultusgo", label: "Vultus Go on X (Twitter)" },
+                  { icon: FaInstagram, link: "https://www.instagram.com/vultusgo", label: "Vultus Go on Instagram" },
                 ].map((social, i) => (
                   <motion.a
                     key={i}
                     href={social.link}
+                    aria-label={social.label}
+                    rel="noopener noreferrer"
+                    target="_blank"
                     whileHover={{ scale: 1.1, y: -5 }}
                     whileTap={{ scale: 0.9 }}
                     className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 shadow-lg border border-gray-100 hover:text-orange-500 transition-colors"
@@ -161,21 +165,22 @@ const Contact = () => {
             viewport={{ once: true }}
             className="p-8 lg:p-12 bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] shadow-2xl shadow-orange-500/10"
           >
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form onSubmit={handleSubmit} aria-label="Contact Vultus Go form" className="flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputField id="name" label="Full Name" type="text" required />
-                <InputField id="company" label="Company Name" type="text" />
+                <InputField id="name" name="name" label="Full Name" type="text" required />
+                <InputField id="company" name="company" label="Company Name" type="text" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                   id="email"
+                  name="email"
                   label="Email Address"
                   type="email"
                   required
                 />
-                <InputField id="phone" label="Phone Number" type="tel" />
+                <InputField id="phone" name="phone" label="Phone Number" type="tel" />
               </div>
-              <InputField id="subject" label="Subject" type="text" required />
+              <InputField id="subject" name="subject" label="Subject" type="text" required />
               <div className="relative">
                 <textarea
                   required
@@ -183,6 +188,7 @@ const Contact = () => {
                   placeholder=" "
                   className="w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-gray-900 peer resize-none"
                   id="message"
+                  name="message"
                 />
                 <label
                   htmlFor="message"
@@ -229,7 +235,7 @@ const Contact = () => {
   );
 };
 
-const InputField = ({ id, label, type, required }) => (
+const InputField = ({ id, name, label, type, required }) => (
   <div className="relative">
     <input
       type={type}
@@ -237,6 +243,7 @@ const InputField = ({ id, label, type, required }) => (
       placeholder=" "
       className="w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-gray-900 peer"
       id={id}
+      name={name || id}
     />
     <label
       htmlFor={id}

@@ -66,6 +66,7 @@ const Navbar = () => {
 
   return (
     <nav
+      aria-label="Vultus Go main navigation"
       className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ease-out transform ${
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       } ${
@@ -76,7 +77,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
         {/* Left Section: Logo & Branding */}
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" aria-label="Vultus Go — Home" className="flex items-center gap-3 group">
           <div className="relative">
             <div className="w-11 h-11 bg-gradient-to-br from-white/10 to-white/90 rounded-xl flex items-center justify-center shadow-lg font-bold font-serif shadow-orange-500/30 group-hover:rotate-6 transition-transform duration-300">
               <span className="text-black text-3xl">V</span>
@@ -128,6 +129,7 @@ const Navbar = () => {
         <div className="hidden lg:block">
           <a
             href="#contact"
+            aria-label="Contact Vultus Go"
             className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-black rounded-full transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             CONTACT
@@ -136,13 +138,16 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle Button */}
         <button
+          type="button"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-nav-drawer"
           className={`lg:hidden p-2.5 rounded-2xl transition-all cursor-pointer duration-300 ${
             isScrolled
               ? "bg-gray-100 dark:bg-white/5 text-gray-900"
               : "bg-gray-100 text-gray-900"
           }`}
-          aria-label="Toggle Navigation"
         >
           {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
@@ -150,6 +155,10 @@ const Navbar = () => {
 
       {/* Mobile Experience: Full-screen Navigation Drawer */}
       <div
+        id="mobile-nav-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Vultus Go mobile navigation"
         className={`fixed inset-y-0 right-0 w-full sm:w-[400px] h-screen bg-white z-[110] lg:hidden transition-all duration-500 ease-[cubic-bezier(0.7,0,0.3,1)] shadow-2xl ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}

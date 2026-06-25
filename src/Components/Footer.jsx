@@ -45,7 +45,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-[#111111] text-white pt-24 pb-12 overflow-hidden border-t border-white/5">
+    <footer role="contentinfo" aria-label="Vultus Go site footer" className="relative bg-[#111111] text-white pt-24 pb-12 overflow-hidden border-t border-white/5">
       {/* Background patterns */}
       <div className="absolute inset-0 z-0 opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -110,9 +110,9 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              VultusGo is a technology company focused on developing intelligent
-              software products, automation systems, and future-ready digital
-              solutions.
+              Vultus Go (VultusGo) is a technology company focused on developing
+              intelligent software products, automation systems, and future-ready
+              digital solutions for organizations worldwide.
             </p>
             <div className="flex flex-wrap gap-2">
               {["Innovation", "Intelligence", "Technology"].map((tag) => (
@@ -234,14 +234,17 @@ const Footer = () => {
           </div>
           <div className="flex gap-4">
             {[
-              { icon: FaLinkedin, href: "#" },
-              { icon: FaGithub, href: "#" },
-              { icon: FaXTwitter, href: "#" },
-              { icon: FaInstagram, href: "#" },
+              { icon: FaLinkedin, href: "https://www.linkedin.com/company/vultusgo", label: "Vultus Go on LinkedIn" },
+              { icon: FaGithub, href: "https://github.com/vultusgo", label: "Vultus Go on GitHub" },
+              { icon: FaXTwitter, href: "https://twitter.com/vultusgo", label: "Vultus Go on X (Twitter)" },
+              { icon: FaInstagram, href: "https://www.instagram.com/vultusgo", label: "Vultus Go on Instagram" },
             ].map((social, i) => (
               <motion.a
                 key={i}
                 href={social.href}
+                aria-label={social.label}
+                rel="noopener noreferrer"
+                target="_blank"
                 whileHover={{ y: -5, scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-orange-500 hover:border-orange-500 transition-all"
@@ -254,15 +257,15 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
-          <p>© 2026 VultusGo. All Rights Reserved.</p>
+          <p>© 2026 Vultus Go. All Rights Reserved.</p>
           <div className="flex flex-wrap justify-center gap-6">
-            <a href="#" className="hover:text-orange-500 transition-colors">
+            <a href="#" aria-label="Vultus Go Privacy Policy" className="hover:text-orange-500 transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-orange-500 transition-colors">
+            <a href="#" aria-label="Vultus Go Terms of Service" className="hover:text-orange-500 transition-colors">
               Terms of Service
             </a>
-            <a href="#" className="hover:text-orange-500 transition-colors">
+            <a href="#" aria-label="Vultus Go Cookies Policy" className="hover:text-orange-500 transition-colors">
               Cookies Policy
             </a>
           </div>

@@ -94,8 +94,11 @@ const TeamCard = ({ member, index, rotation, radius }) => {
           <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-orange-100 shadow-inner group-hover:border-orange-500 transition-colors duration-300">
             <img
               src={member.image}
-              alt={member.name}
+              alt={`${member.name} — ${member.role} at Vultus Go`}
               className="w-full h-full object-cover"
+              loading="lazy"
+              width="96"
+              height="96"
             />
           </div>
           <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white shadow-lg">
@@ -114,12 +117,18 @@ const TeamCard = ({ member, index, rotation, radius }) => {
         <div className="flex gap-4">
           <a
             href={member.linkedin}
+            aria-label={`${member.name} on LinkedIn`}
+            rel="noopener noreferrer"
+            target="_blank"
             className="p-2 bg-gray-50 rounded-xl text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition-all"
           >
             <FaLinkedin size={18} />
           </a>
           <a
             href={member.github}
+            aria-label={`${member.name} on GitHub`}
+            rel="noopener noreferrer"
+            target="_blank"
             className="p-2 bg-gray-50 rounded-xl text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition-all"
           >
             <FaGithub size={18} />
@@ -157,6 +166,7 @@ const Team = () => {
   return (
     <section
       id="team"
+      aria-label="Vultus Go Team"
       className="relative w-full py-24 lg:py-32 overflow-hidden bg-white"
     >
       <div className="absolute inset-0 z-0">

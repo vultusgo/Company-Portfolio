@@ -6,6 +6,7 @@ const Hero = () => {
   return (
     <section
       id="home"
+      aria-label="Vultus Go — Pioneering Future Intelligence"
       className="relative min-h-screen w-full flex items-center overflow-hidden bg-white pt-36 lg:pt-20"
     >
       {/* Background Aesthetic Elements */}
@@ -42,15 +43,19 @@ const Hero = () => {
 
           {/* Paragraph */}
           <p className="max-w-xl text-lg text-gray-600 leading-relaxed font-medium">
-            VultusGo develops innovative software products and intelligent
+            Vultus Go develops innovative software products and intelligent
             digital solutions that help organizations automate processes,
             improve efficiency, and embrace the future of technology.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button className="group relative px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl overflow-hidden transition-all shadow-2xl shadow-gray-200 cursor-pointer">
-              <span className="relative z-10 flex items-center gap-2">
+            <a
+              href="#products"
+              aria-label="Explore Vultus Go products"
+              className="group relative px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl overflow-hidden transition-all shadow-2xl shadow-gray-200 cursor-pointer text-center"
+            >
+              <span className="relative z-10 flex items-center gap-2 justify-center">
                 Explore Products{" "}
                 <FiArrowRight
                   size={18}
@@ -58,11 +63,15 @@ const Hero = () => {
                 />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity text-center min-w-full" />
-            </button>
+            </a>
 
-            <button className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-2xl hover:from-black hover:to-black duration-1000 cursor-pointer transition-all active:scale-95">
+            <a
+              href="#contact"
+              aria-label="Contact Vultus Go"
+              className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-2xl hover:from-black hover:to-black duration-1000 cursor-pointer transition-all active:scale-95 text-center"
+            >
               Contact Us
-            </button>
+            </a>
           </div>
 
           {/* Trust Indicators */}
@@ -86,7 +95,7 @@ const Hero = () => {
         </div>
 
         {/* Right Section: Futuristic Visual */}
-        <div className="relative flex items-center justify-center animate-in fade-in zoom-in duration-1000 delay-200 mt-12 lg:mt-0">
+        <div className="relative flex items-center justify-center animate-in fade-in zoom-in duration-1000 delay-200 mt-12 lg:mt-0" aria-hidden="true">
           <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[400px] lg:max-w-[500px]">
             {/* Central Animated Core */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-orange-500/10 rounded-full flex items-center justify-center animate-pulse">
@@ -157,7 +166,7 @@ const Hero = () => {
       </div>
 
       {/* Bottom Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50" aria-hidden="true">
         <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
         <span className="text-[8px] font-black uppercase tracking-[0.4em] text-gray-400">
           Scroll

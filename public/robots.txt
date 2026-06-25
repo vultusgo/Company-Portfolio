@@ -1,0 +1,15 @@
+# Robots.txt — Vultus Go Official Website
+# https://www.vultusgo.com/
+
+User-agent: *
+Allow: /
+
+# Disallow build artifacts
+Disallow: /src/
+Disallow: /.git/
+
+# Crawl delay (optional, respects crawler resources)
+Crawl-delay: 5
+
+# Sitemaps
+Sitemap: https://www.vultusgo.com/sitemap.xml
