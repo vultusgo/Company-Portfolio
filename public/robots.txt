@@ -1,5 +1,5 @@
 # Robots.txt — Vultus Go Official Website
-# https://www.vultusgo.com/
+# https://www.vultusgo.in/
 
 User-agent: *
 Allow: /
@@ -12,4 +12,4 @@ Disallow: /.git/
 Crawl-delay: 5
 
 # Sitemaps
-Sitemap: https://www.vultusgo.com/sitemap.xml
+Sitemap: https://www.vultusgo.in/sitemap.xml
