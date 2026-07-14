@@ -1,252 +1,304 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FiMenu, FiX, FiZap, FiChevronRight } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
+import { FiMenu, FiX, FiChevronDown, FiArrowRight } from "react-icons/fi";
 
-// Navigation configuration for easy scalability
 const navLinks = [
-  { name: "Home", path: "#home" },
-  { name: "About", path: "#about" },
-  { name: "Products", path: "#products" },
-  { name: "Team", path: "#team" },
-  { name: "Technology", path: "#technology" },
-  { name: "Vision", path: "#vision" },
-  { name: "FAQ", path: "#faq" },
+  { name: "Home", path: "/" },
+  {
+    name: "Services",
+    path: "/services",
+    hasDropdown: true,
+    children: [
+      { name: "Web Development", path: "/services/web-development" },
+      { name: "Mobile App Development", path: "/services/mobile-app-development" },
+      { name: "Custom Software Development", path: "/services/custom-software-development" },
+      { name: "AI & Machine Learning", path: "/services/ai-machine-learning" },
+      { name: "UI/UX Design", path: "/services/ui-ux-design" },
+      { name: "Digital Transformation", path: "/services/digital-transformation" },
+      { name: "Maintenance & Support", path: "/services/maintenance-support" },
+    ],
+  },
+  {
+    name: "Products",
+    path: "/products",
+    hasDropdown: true,
+    children: [
+      { name: "Facial Recognition Attendance", path: "/products/facial-recognition-attendance-system" },
+    ],
+  },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact", hash: "contact" },
 ];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const location = useLocation();
 
-  // Handle navbar appearance and scroll behavior
   useEffect(() => {
     setIsVisible(true);
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 30);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Detect active section on scroll
   useEffect(() => {
-    const options = { threshold: 0.5 };
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
+    document.body.style.overflow = isMobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isMobileOpen]);
 
-    const observer = new IntersectionObserver(callback, options);
-    const sections = navLinks
-      .map((link) => document.getElementById(link.path.replace("#", "")))
-      .filter((section) => section !== null);
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
-  }, []);
-
-  // Prevent scrolling the background when the mobile menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    setIsMobileOpen(false);
+    setServicesOpen(false);
+    setProductsOpen(false);
+  }, [location]);
+
+  const handleNavClick = (e, link) => {
+    setIsMobileOpen(false);
+    if (location.pathname === "/" && link.hash) {
+      e.preventDefault();
+      const el = document.getElementById(link.hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMenuOpen]);
+  };
+
+  const isActive = (link) => {
+    if (link.path === "/about" && location.pathname === "/about") return true;
+    if (link.path === "/contact" && location.pathname === "/contact") return true;
+    if (link.path === "/services" && location.pathname.startsWith("/services")) return true;
+    if (link.path === "/products" && location.pathname.startsWith("/products")) return true;
+    return false;
+  };
 
   return (
-    <nav
-      aria-label="Vultus Go main navigation"
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ease-out transform ${
-        isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+    <header
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isScrolled
-          ? "py-3 bg-white/80 dark:bg-orange-50 backdrop-blur-xl shadow-2xl"
-          : "py-6 bg-transparent"
+          ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_3px_0_rgb(0_0_0/0.06)]"
+          : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-        {/* Left Section: Logo & Branding */}
-        <Link to="/" aria-label="Vultus Go — Home" className="flex items-center gap-3 group">
-          <div className="relative">
-            <div className="w-11 h-11 bg-gradient-to-br from-white/10 to-white/90 rounded-xl flex items-center justify-center shadow-lg font-bold font-serif shadow-orange-500/30 group-hover:rotate-6 transition-transform duration-300">
-              <span className="text-black text-3xl">V</span>
-              <span className="text-orange-500 text-2xl">G</span>
-            </div>
-            <div className="absolute inset-0 bg-orange-500/20 blur-lg rounded-xl scale-0 group-hover:scale-150 transition-transform duration-500 -z-10" />
-          </div>
-          <div className="flex flex-col">
-            <span
-              className={`text-2xl font-black font-serif leading-none transition-colors duration-300 ${isScrolled ? "text-gray-900" : "text-gray-900"}`}
-            >
-              <span>Vultus</span>
-              <span className="text-orange-500">Go</span>
-            </span>
-          </div>
-        </Link>
-
-        {/* Center Section: Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-2">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.path.replace("#", "");
-            return (
-              <a
-                key={link.path}
-                href={link.path}
-                className={`relative px-4 py-2 text-sm font-bold tracking-wide transition-all duration-300 rounded-full group ${
-                  isActive
-                    ? "text-orange-500"
-                    : isScrolled
-                      ? "text-gray-600 hover:text-orange-500"
-                      : "text-black hover:text-orange-500"
-                }`}
-              >
-                <span className="relative z-10">{link.name}</span>
-                {isActive && (
-                  <span className="absolute inset-0 bg-orange-500/10 rounded-full transition-all duration-300 animate-pulse" />
-                )}
-                <span
-                  className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-[3px] bg-orange-500 rounded-full transition-all duration-300 ${
-                    isActive ? "w-4" : "w-0 group-hover:w-2"
-                  }`}
-                />
-              </a>
-            );
-          })}
-        </div>
-
-        {/* Right Section: Contact Action */}
-        <div className="hidden lg:block">
-          <a
-            href="#contact"
-            aria-label="Contact Vultus Go"
-            className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-black rounded-full transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
-          >
-            CONTACT
-          </a>
-        </div>
-
-        {/* Mobile Menu Toggle Button */}
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-nav-drawer"
-          className={`lg:hidden p-2.5 rounded-2xl transition-all cursor-pointer duration-300 ${
-            isScrolled
-              ? "bg-gray-100 dark:bg-white/5 text-gray-900"
-              : "bg-gray-100 text-gray-900"
-          }`}
-        >
-          {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Experience: Full-screen Navigation Drawer */}
-      <div
-        id="mobile-nav-drawer"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Vultus Go mobile navigation"
-        className={`fixed inset-y-0 right-0 w-full sm:w-[400px] h-screen bg-white z-[110] lg:hidden transition-all duration-500 ease-[cubic-bezier(0.7,0,0.3,1)] shadow-2xl ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full px-8 py-8">
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white rounded-lg shadow-2xl shadow-orange-500/30 flex items-center justify-center font-serif flex items-center justify-center font-bold">
-                <span className="text-black text-3xl">V</span>
-                <span className="text-orange-500 text-2xl">G</span>
+      <nav className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex items-center justify-between h-20 lg:h-24">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group" aria-label="Vultus Go — Home">
+            <div className="relative w-10 h-10 lg:w-12 lg:h-12">
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl opacity-20 group-hover:opacity-30 transition-opacity blur-md" />
+              <div className="relative w-full h-full bg-white rounded-xl border border-surface-200 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                <span className="text-lg lg:text-xl font-bold text-surface-900">
+                  V<span className="text-brand-500">G</span>
+                </span>
               </div>
             </div>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="p-2 bg-gray-100 rounded-full text-gray-900 hover:bg-gray-200 cursor-pointer transition-colors"
-            >
-              <FiX size={24} />
-            </button>
-          </div>
+            <div className="hidden sm:block">
+              <span className="text-xl font-bold text-surface-900 tracking-tight">
+                Vultus<span className="text-brand-500">Go</span>
+              </span>
+            </div>
+          </Link>
 
-          {/* Navigation Links */}
-          <div className="flex flex-col gap-4">
-            <p className="text-[10px] font-bold tracking-[0.3em] text-gray-400 uppercase mb-4">
-              Navigation
-            </p>
-            {navLinks.map((link, i) => {
-              const isActive = activeSection === link.path.replace("#", "");
-              return (
-                <a
-                  key={link.path}
-                  href={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-xl font-black tracking-tighter transition-all duration-500 flex items-center justify-between py-2 border-b border-gray-50 group ${
-                    isMenuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "translate-x-12 opacity-0"
-                  } ${isActive ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
-                  style={{ transitionDelay: `${i * 70}ms` }}
-                >
-                  <div className="flex items-center gap-4">
-                    <span
-                      className={`text-xs font-serif ${isActive ? "text-orange-500" : "text-gray-300"}`}
-                    >
-                      0{i + 1}
-                    </span>
-                    {link.name}
-                  </div>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const active = isActive(link);
+              if (link.hasDropdown) {
+                const isServices = link.name === "Services";
+                const isProducts = link.name === "Products";
+                const isOpen = isServices ? servicesOpen : isProducts ? productsOpen : false;
+                const setIsOpen = isServices ? setServicesOpen : isProducts ? setProductsOpen : () => {};
+
+                return (
                   <div
-                    className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? "bg-orange-500 text-white" : "bg-gray-50 text-gray-400 group-hover:bg-orange-500 group-hover:text-white"}`}
+                    key={link.name}
+                    className="relative group"
+                    onMouseEnter={() => {
+                      setServicesOpen(false);
+                      setProductsOpen(false);
+                      setIsOpen(true);
+                    }}
+                    onMouseLeave={() => setIsOpen(false)}
                   >
-                    <FiChevronRight
-                      className={`transition-transform duration-300 ${
-                        isActive
-                          ? "translate-x-0"
-                          : "-translate-x-1 group-hover:translate-x-0"
+                    <Link
+                      to={link.path}
+                      className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg flex items-center gap-1 ${
+                        active
+                          ? "text-brand-600 bg-brand-50"
+                          : "text-surface-600 hover:text-surface-900 hover:bg-surface-50"
                       }`}
-                      size={18}
-                    />
+                    >
+                      {link.name}
+                      <FiChevronDown size={14} className={`text-surface-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                    </Link>
+                    {/* Dropdown */}
+                    <div className={`absolute top-full left-0 mt-1 w-64 bg-white border border-surface-100 rounded-2xl shadow-xl shadow-black/5 overflow-hidden transition-all duration-200 ${
+                      isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                    }`}>
+                      <div className="py-2">
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            className={`block px-5 py-2.5 text-sm font-medium transition-colors ${
+                              location.pathname === child.path
+                                ? "text-brand-600 bg-brand-50"
+                                : "text-surface-600 hover:text-brand-600 hover:bg-brand-50"
+                            }`}
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </a>
+                );
+              }
+              return (
+                <Link
+                  key={link.name}
+                  to={link.hash ? `${link.path}#${link.hash}` : link.path}
+                  onClick={(e) => handleNavClick(e, link)}
+                  className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                    active
+                      ? "text-brand-600 bg-brand-50"
+                      : "text-surface-600 hover:text-surface-900 hover:bg-surface-50"
+                  }`}
+                >
+                  {link.name}
+                </Link>
               );
             })}
           </div>
 
-          <div className="mt-auto">
-            <div className="mb-8">
-              <p className="text-[10px] font-bold tracking-[0.3em] text-gray-400 uppercase mb-2">
-                Get in touch
-              </p>
-              <p className="text-gray-600 font-medium">vultusgo@gmail.com</p>
-            </div>
-            <a
-              href="#contact"
-              onClick={() => setIsMenuOpen(false)}
-              className={`block w-full py-5 bg-gray-900 hover:bg-orange-500 text-white text-center text-lg font-black rounded-2xl transition-all duration-500 transform shadow-xl shadow-gray-200 ${
-                isMenuOpen
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-12 opacity-0"
-              }`}
-              style={{ transitionDelay: `${navLinks.length * 70}ms` }}
+          {/* Desktop CTA */}
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              to="/#contact"
+              onClick={(e) => {
+                if (location.pathname === "/") {
+                  e.preventDefault();
+                  const el = document.getElementById("contact");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="px-6 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
             >
-              Contact Us
-            </a>
+              Get Started
+            </Link>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className="lg:hidden p-2.5 rounded-xl bg-surface-100 hover:bg-surface-200 transition-colors cursor-pointer"
+            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileOpen}
+          >
+            {isMobileOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 top-0 left-0 w-full h-full bg-white z-[110] lg:hidden transition-all duration-400 ${
+          isMobileOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="flex flex-col h-full p-6">
+          <div className="flex items-center justify-between mb-8">
+            <Link to="/" className="flex items-center gap-3" onClick={() => setIsMobileOpen(false)}>
+              <div className="w-10 h-10 bg-white rounded-xl border border-surface-200 flex items-center justify-center shadow-sm">
+                <span className="text-lg font-bold">V<span className="text-brand-500">G</span></span>
+              </div>
+              <span className="text-xl font-bold">Vultus<span className="text-brand-500">Go</span></span>
+            </Link>
+            <button onClick={() => setIsMobileOpen(false)} className="p-2.5 rounded-xl bg-surface-100 hover:bg-surface-200 transition-colors cursor-pointer" aria-label="Close menu">
+              <FiX size={22} />
+            </button>
+          </div>
+
+          <nav className="flex flex-col gap-1 overflow-y-auto flex-1">
+            {navLinks.map((link) => (
+              <div key={link.name}>
+                {link.hasDropdown ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        const isServices = link.name === "Services";
+                        const isProducts = link.name === "Products";
+                        if (isServices) {
+                          setServicesOpen(!servicesOpen);
+                          setProductsOpen(false);
+                        } else if (isProducts) {
+                          setProductsOpen(!productsOpen);
+                          setServicesOpen(false);
+                        }
+                      }}
+                      className="flex items-center justify-between w-full px-4 py-4 text-lg font-semibold text-surface-800 hover:text-brand-500 hover:bg-brand-50 rounded-xl transition-all cursor-pointer"
+                    >
+                      {link.name}
+                      <FiChevronDown size={18} className={`text-surface-400 transition-transform duration-200 ${link.name === "Services" ? servicesOpen : productsOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {(link.name === "Services" ? servicesOpen : productsOpen) && (
+                      <div className="ml-4 mb-2 space-y-1">
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            onClick={() => setIsMobileOpen(false)}
+                            className={`block px-4 py-3 text-sm font-medium rounded-xl transition-all ${
+                              location.pathname === child.path
+                                ? "text-brand-600 bg-brand-50"
+                                : "text-surface-600 hover:text-brand-500 hover:bg-brand-50"
+                            }`}
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={link.hash ? `${link.path}#${link.hash}` : link.path}
+                    onClick={(e) => handleNavClick(e, link)}
+                    className={`flex items-center justify-between px-4 py-4 text-lg font-semibold rounded-xl transition-all ${
+                      isActive(link)
+                        ? "text-brand-600 bg-brand-50"
+                        : "text-surface-800 hover:text-brand-500 hover:bg-brand-50"
+                    }`}
+                  >
+                    {link.name}
+                    <FiArrowRight size={18} className="text-surface-400" />
+                  </Link>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          <div className="mt-auto space-y-4 pt-4">
+            <div className="h-px bg-surface-100" />
+            <p className="text-sm text-surface-500">vultusgo@gmail.com</p>
+            <Link
+              to="/#contact"
+              onClick={() => setIsMobileOpen(false)}
+              className="block w-full py-4 bg-brand-500 hover:bg-brand-600 text-white text-center font-semibold rounded-xl transition-all shadow-sm"
+            >
+              Get Started
+            </Link>
           </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 

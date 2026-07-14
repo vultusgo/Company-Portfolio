@@ -1,253 +1,163 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { FiMail, FiPhone, FiMapPin, FiClock, FiSend } from "react-icons/fi";
-import { FaLinkedin, FaGithub, FaXTwitter, FaInstagram } from "react-icons/fa6";
+import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiSend } from "react-icons/fi";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 
 const contactInfo = [
-  {
-    icon: FiMail,
-    label: "Email",
-    value: "vultusgo@gmail.com",
-    href: "mailto:vultusgo@gmail.com",
-  },
-  {
-    icon: FiPhone,
-    label: "Phone",
-    value: "+1 (555) 000-0000",
-    href: "tel:+15550000000",
-  },
-  {
-    icon: FiMapPin,
-    label: "Location",
-    value: "Silicon Valley, CA",
-    href: "#",
-  },
-  {
-    icon: FiClock,
-    label: "Business Hours",
-    value: "Mon - Fri: 9 AM - 6 PM",
-    href: null,
-  },
+  { icon: FiMail, label: "Email", value: "vultusgo@gmail.com", href: "mailto:vultusgo@gmail.com" },
+  { icon: FiPhone, label: "Phone", value: "+1 (555) 000-0000", href: "tel:+15550000000" },
+  { icon: FiMapPin, label: "Location", value: "Silicon Valley, CA", href: "#" },
 ];
 
 const Contact = () => {
-  const [formState, setFormState] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [ref, isVisible] = useScrollReveal({ threshold: 0.1 });
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implementation for form submission logic goes here
-    console.log("Form submitted:", formState);
+    console.log("Form submitted:", formData);
+    setSubmitted(true);
+    setFormData({ name: "", email: "", subject: "", message: "" });
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
     <section
       id="contact"
+      ref={ref}
       aria-label="Contact Vultus Go"
-      className="relative w-full py-24 lg:py-32 bg-white overflow-hidden"
+      className="relative w-full py-24 lg:py-32 overflow-hidden bg-white"
     >
-      {/* Background Aesthetics */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:60px_60px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-100/20 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808006_1px,transparent_1px),linear-gradient(to_bottom,#80808006_1px,transparent_1px)] bg-[size:48px_48px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-50/30 blur-[120px] rounded-full" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Section Header */}
-        <div className="text-center mb-20 max-w-3xl mx-auto">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-[10px] font-black tracking-[0.2em] text-orange-600 uppercase mb-4 inline-block"
-          >
-            CONTACT US
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-black font-serif text-gray-900 leading-tight mb-6"
-          >
-            Let's Build The Future Together
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-600"
-          >
-            Have a project, idea, partnership opportunity, or business
-            requirement? Connect with VultusGo and let's create innovative
-            solutions together.
-          </motion.p>
+        <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
+          <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span className="inline-block px-4 py-1.5 bg-brand-50 border border-brand-100 rounded-full text-[10px] font-semibold tracking-[0.15em] text-brand-600 uppercase mb-6">
+              Contact Us
+            </span>
+          </div>
+          <h2 className={`text-4xl lg:text-5xl font-bold tracking-tight text-black leading-tight mb-6 transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
+            Let's Build Something Great Together
+          </h2>
+          <p className={`text-lg text-surface-500 leading-relaxed transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
+            Have a project in mind? Reach out and our team will get back to you within 24 hours.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-24">
-          {/* Left Section: Info Cards */}
-          <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 max-w-5xl mx-auto">
+          <div className={`lg:col-span-2 space-y-6 transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
             {contactInfo.map((info, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="p-6 bg-white/70 backdrop-blur-xl border border-white rounded-3xl shadow-xl shadow-orange-500/5 group transition-all"
-              >
-                <div className="flex items-center gap-6">
-                  <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
-                    <info.icon size={24} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1">
-                      {info.label}
-                    </p>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        className="text-lg font-bold text-gray-900 hover:text-orange-500 transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-lg font-bold text-gray-900">
-                        {info.value}
-                      </p>
-                    )}
-                  </div>
+              <div key={i} className="flex items-center gap-5 p-5 bg-surface-50 border border-surface-100 rounded-2xl hover:border-brand-100 transition-all group">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-brand-500 shadow-sm group-hover:bg-brand-500 group-hover:text-white transition-all">
+                  <info.icon size={22} />
                 </div>
-              </motion.div>
+                <div>
+                  <p className="text-[10px] font-semibold text-surface-400 uppercase tracking-wider mb-0.5">{info.label}</p>
+                  {info.href ? (
+                    <a href={info.href} className="text-sm font-semibold text-black hover:text-brand-500 transition-colors">
+                      {info.value}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-semibold text-black">{info.value}</p>
+                  )}
+                </div>
+              </div>
             ))}
-
-            {/* Social Links */}
-            <div className="mt-8">
-              <p className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase mb-6 ml-2">
-                Follow Our Journey
-              </p>
-              <div className="flex gap-4">
-                {[
-                  { icon: FaLinkedin, link: "https://www.linkedin.com/company/vultusgo", label: "Vultus Go on LinkedIn" },
-                  { icon: FaGithub, link: "https://github.com/vultusgo", label: "Vultus Go on GitHub" },
-                  { icon: FaXTwitter, link: "https://twitter.com/vultusgo", label: "Vultus Go on X (Twitter)" },
-                  { icon: FaInstagram, link: "https://www.instagram.com/vultusgo", label: "Vultus Go on Instagram" },
-                ].map((social, i) => (
-                  <motion.a
-                    key={i}
-                    href={social.link}
-                    aria-label={social.label}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    whileHover={{ scale: 1.1, y: -5 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 shadow-lg border border-gray-100 hover:text-orange-500 transition-colors"
-                  >
-                    <social.icon size={20} />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Section: Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="p-8 lg:p-12 bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] shadow-2xl shadow-orange-500/10"
-          >
-            <form onSubmit={handleSubmit} aria-label="Contact Vultus Go form" className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputField id="name" name="name" label="Full Name" type="text" required />
-                <InputField id="company" name="company" label="Company Name" type="text" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputField
-                  id="email"
-                  name="email"
-                  label="Email Address"
-                  type="email"
-                  required
-                />
-                <InputField id="phone" name="phone" label="Phone Number" type="tel" />
-              </div>
-              <InputField id="subject" name="subject" label="Subject" type="text" required />
-              <div className="relative">
-                <textarea
-                  required
-                  rows={5}
-                  placeholder=" "
-                  className="w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-gray-900 peer resize-none"
-                  id="message"
-                  name="message"
-                />
-                <label
-                  htmlFor="message"
-                  className="absolute left-6 top-4 text-gray-400 pointer-events-none transition-all peer-focus:-top-2 peer-focus:left-4 peer-focus:text-[10px] peer-focus:font-black peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-orange-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-4 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:font-black peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-widest peer-[:not(:placeholder-shown)]:text-orange-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
-                >
-                  Your Message
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-2xl shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group cursor-pointer"
-              >
-                SEND MESSAGE
-                <FiSend className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </button>
-            </form>
-          </motion.div>
-        </div>
-
-        {/* Additional CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative p-10 lg:p-16 bg-gray-900 rounded-[3rem] overflow-hidden text-center"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-transparent pointer-events-none" />
-          <div className="relative z-10 flex flex-col items-center">
-            <h3 className="text-3xl md:text-5xl font-black font-serif text-white mb-6">
-              Ready To Transform Your Ideas Into Reality?
-            </h3>
-            <p className="max-w-2xl text-lg text-gray-400 mb-10">
-              Our team of experts is ready to discuss your projects, technology
-              requirements, and how VultusGo can help you achieve your goals.
+            <p className="text-[10px] font-semibold text-surface-400 uppercase tracking-wider pt-2">
+              Mon — Fri: 9 AM — 6 PM
             </p>
-            <button className="px-10 py-5 bg-orange-500 hover:bg-orange-600 text-white font-black rounded-2xl shadow-2xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all active:scale-95 cursor-pointer">
-              Schedule a Discussion
-            </button>
           </div>
-        </motion.div>
+
+          <div className={`lg:col-span-3 transition-all duration-700 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
+            <form
+              onSubmit={handleSubmit}
+              className="p-8 bg-surface-50 border border-surface-100 rounded-3xl shadow-sm"
+            >
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mb-4">
+                    <FiSend size={28} className="text-brand-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-black mb-2">Message Sent!</h3>
+                  <p className="text-surface-500">Thank you for reaching out. We'll be in touch within 24 hours.</p>
+                </div>
+              ) : (
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <InputField id="name" name="name" label="Full Name" required value={formData.name} onChange={handleChange} />
+                    <InputField id="email" name="email" label="Email Address" type="email" required value={formData.email} onChange={handleChange} />
+                  </div>
+                  <InputField id="subject" name="subject" label="Subject" required value={formData.subject} onChange={handleChange} />
+                  <TextareaField id="message" name="message" label="Your Message" required value={formData.message} onChange={handleChange} />
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-black hover:bg-surface-900 text-white font-semibold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    Send Message
+                    <FiArrowRight size={18} />
+                  </button>
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   );
 };
 
-const InputField = ({ id, name, label, type, required }) => (
+const InputField = ({ id, name, label, type = "text", required, value, onChange }) => (
   <div className="relative">
     <input
       type={type}
-      required={required}
-      placeholder=" "
-      className="w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-gray-900 peer"
       id={id}
-      name={name || id}
+      name={name}
+      required={required}
+      value={value}
+      onChange={onChange}
+      placeholder=" "
+      className="peer w-full px-5 py-3.5 bg-white border border-surface-200 rounded-xl outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all text-sm text-black"
     />
     <label
       htmlFor={id}
-      className="absolute left-6 top-4 text-gray-400 pointer-events-none transition-all peer-focus:-top-2 peer-focus:left-4 peer-focus:text-[10px] peer-focus:font-black peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-orange-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-4 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:font-black peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-widest peer-[:not(:placeholder-shown)]:text-orange-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+      className="absolute left-4 top-3.5 text-sm text-surface-400 transition-all peer-focus:-top-2.5 peer-focus:left-3 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-brand-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-wider peer-[:not(:placeholder-shown)]:text-brand-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2 cursor-text"
+    >
+      {label}
+    </label>
+  </div>
+);
+
+const TextareaField = ({ id, name, label, required, value, onChange }) => (
+  <div className="relative">
+    <textarea
+      id={id}
+      name={name}
+      required={required}
+      value={value}
+      onChange={onChange}
+      rows={4}
+      placeholder=" "
+      className="peer w-full px-5 py-3.5 bg-white border border-surface-200 rounded-xl outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all text-sm text-black resize-none"
+    />
+    <label
+      htmlFor={id}
+      className="absolute left-4 top-3.5 text-sm text-surface-400 transition-all peer-focus:-top-2.5 peer-focus:left-3 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-brand-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-wider peer-[:not(:placeholder-shown)]:text-brand-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2 cursor-text"
     >
       {label}
     </label>
