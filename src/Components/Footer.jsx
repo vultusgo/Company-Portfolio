@@ -147,8 +147,8 @@ const Footer = () => {
             </div>
             <div>
               <p className="text-[10px] text-surface-500 uppercase tracking-wider font-medium">Phone</p>
-              <a href="tel:+15550000000" className="text-sm text-surface-300 hover:text-brand-400 transition-colors">
-                +1 (555) 000-0000
+              <a href="tel:+919664373310" className="text-sm text-surface-300 hover:text-brand-400 transition-colors">
+                +91 9664373310
               </a>
             </div>
           </div>
@@ -158,7 +158,7 @@ const Footer = () => {
             </div>
             <div>
               <p className="text-[10px] text-surface-500 uppercase tracking-wider font-medium">Location</p>
-              <p className="text-sm text-surface-300">Silicon Valley, CA</p>
+              <p className="text-sm text-surface-300">Churu , RAJASTHAN 331001</p>
             </div>
           </div>
         </div>
