@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FiCpu, FiGlobe, FiSmartphone, FiServer,
   FiCloud, FiSettings, FiLayout, FiRefreshCw,

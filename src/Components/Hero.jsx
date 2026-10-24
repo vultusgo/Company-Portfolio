@@ -1,4 +1,3 @@
-import React from "react";
 import { FiArrowRight, FiCheck, FiCpu, FiZap, FiShield } from "react-icons/fi";
 
 const Hero = () => {

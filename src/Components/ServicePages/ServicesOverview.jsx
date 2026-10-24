@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiGlobe, FiSmartphone, FiServer, FiCpu, FiLayout, FiRefreshCw, FiTool } from "react-icons/fi";
 import { useScrollReveal } from "../../hooks/useScrollReveal";

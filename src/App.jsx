@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./Components/ScrollToTop";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
@@ -9,6 +9,8 @@ import WhyChooseUs from "./Components/WhyChooseUs";
 import FAQ from "./Components/FAQ";
 import Contact from "./Components/Contact";
 import FinalCTA from "./Components/FinalCTA";
+import PricingComparison from "./Components/PricingComparison";
+import DevStudio from "./Components/DevStudio";
 import Footer from "./Components/Footer";
 import AboutPage from "./Components/AboutPage";
 import ContactPage from "./Components/ContactPage";
@@ -32,6 +34,8 @@ function HomePage() {
         <About />
         <Services />
         <FeaturedProduct />
+        <PricingComparison />
+        <DevStudio />
         <WhyChooseUs />
         <FAQ />
         <Contact />
@@ -90,6 +94,8 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/web-development" element={<ServicePage component={WebDevelopment} />} />
         <Route path="/services/mobile-app-development" element={<ServicePage component={MobileAppDevelopment} />} />
+        <Route path="/services/mobile-development" element={<Navigate to="/services/mobile-app-development" replace />} />
+        <Route path="/products/facial-recognition" element={<Navigate to="/products/facial-recognition-attendance-system" replace />} />
         <Route path="/services/custom-software-development" element={<ServicePage component={CustomSoftwareDevelopment} />} />
         <Route path="/services/ai-machine-learning" element={<ServicePage component={AIMachineLearning} />} />
         <Route path="/services/ui-ux-design" element={<ServicePage component={UIUXDesign} />} />

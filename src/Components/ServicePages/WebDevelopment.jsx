@@ -1,9 +1,13 @@
-import React from "react";
 import { FiGlobe } from "react-icons/fi";
 import {
   ServiceHero, OverviewSection, WhatWeOffer, WhyChooseUs,
-  ProcessSection, TechnologiesSection, ServiceFAQ, ServiceCTA, RJTechForceSection,
+  ProcessSection, ServiceFAQ, ServiceCTA, RJTechForceSection,
 } from "../ServiceLayout";
+import FeaturedProjects from "../FeaturedProjects";
+import TeamShowcase from "../TeamShowcase";
+import TechStackStrip from "../TechStackStrip";
+import { webStack } from "../../data/techStacks";
+import { devPortal } from "../../data/contactInfo";
 
 const offers = [
   "Business Websites", "Corporate Websites", "Portfolio Websites",
@@ -11,7 +15,6 @@ const offers = [
   "Website Redesign", "Website Maintenance",
 ];
 
-const techs = ["React", "Next.js", "Node.js", "Express", "Tailwind CSS", "MongoDB", "PostgreSQL", "TypeScript", "REST APIs", "Docker"];
 
 const faqs = [
   { q: "How long does it take to build a website?", a: "Timelines vary by complexity. A business website typically takes 2-4 weeks, while custom web applications can take 2-4 months depending on scope and requirements." },
@@ -24,7 +27,7 @@ const faqs = [
 
 const WebDevelopment = () => ( 
   <>
-    <ServiceHero title="Web Development" breadcrumbParent="Web Development" icon={FiGlobe}
+    <ServiceHero title="Web Development" breadcrumbParent="Web Development" icon={FiGlobe} ctaTo={devPortal.url}
       description="We build modern, high-performance websites and web applications that drive business growth. From simple business sites to complex enterprise platforms, our solutions are fast, secure, and scalable." />
     <RJTechForceSection />
     <OverviewSection title="Building the Web, Better"
@@ -34,11 +37,13 @@ const WebDevelopment = () => (
         "We follow a user-centered design approach, ensuring every interface is intuitive and every interaction is meaningful. Combined with enterprise-grade security and performance optimization, our web solutions are built to compete in today's digital landscape.",
       ]} />
     <WhatWeOffer items={offers} />
+    <FeaturedProjects type="web" />
     <WhyChooseUs />
     <ProcessSection />
-    <TechnologiesSection techs={techs} />
+    <TechStackStrip items={webStack} />
+    <TeamShowcase track="web" />
     <ServiceFAQ faqs={faqs} />
-    <ServiceCTA title="Ready to Build Your Web Presence?" subtitle="Let's create a website that elevates your brand and drives real results." />
+    <ServiceCTA ctaTo={devPortal.url} title="Ready to Build Your Web Presence?" subtitle="Let's create a website that elevates your brand and drives real results." />
   </>
 );
 

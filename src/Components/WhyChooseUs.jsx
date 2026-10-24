@@ -1,4 +1,3 @@
-import React from "react";
 import { FiCpu, FiShield, FiLayers, FiAward, FiHeadphones, FiTarget } from "react-icons/fi";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 

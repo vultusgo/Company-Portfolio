@@ -1,3 +1,4 @@
+import { contactInfo } from "../data/contactInfo";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -59,12 +60,6 @@ const industries = [
   { icon: FiCloud, title: "Enterprises", desc: "Large organizations requiring robust, secure, and high-performance enterprise systems." },
 ];
 
-const team = [
-  { name: "Founder & CEO", role: "Vision & Strategy", initials: "VG", gradient: "from-brand-500 to-brand-700" },
-  { name: "Co-Founder", role: "Operations & Growth", initials: "CF", gradient: "from-brand-400 to-brand-600" },
-  { name: "Technical Lead", role: "Engineering & Architecture", initials: "TL", gradient: "from-brand-600 to-brand-800" },
-  { name: "Core Team", role: "Design, Development & AI", initials: "CT", gradient: "from-surface-700 to-black" },
-];
 
 const stats = [
   { value: "50+", label: "Projects Delivered" },
@@ -79,7 +74,7 @@ const faqs = [
   { q: "Do you develop custom software?", a: "Yes. Custom software development is one of our core services. We build tailored solutions including ERP systems, CRM platforms, school and hospital management systems, and business automation tools." },
   { q: "Do you provide ongoing support after deployment?", a: "Absolutely. We offer comprehensive maintenance and support services including bug fixes, security updates, performance monitoring, and feature enhancements. Our support plans are flexible and tailored to your needs." },
   { q: "Can your solutions be customized for our organization?", a: "Yes. All our products and solutions are highly customizable. We work closely with your team to understand your requirements and tailor the solution to match your branding, workflows, and business processes." },
-  { q: "How can I get started with Vultus Go?", a: "Getting started is simple. You can reach out to us through our contact form, email us at vultusgo@gmail.com, or request a demo of our products. We'll schedule a consultation to understand your needs and propose the right solution." },
+  { q: "How can I get started with Vultus Go?", a: `Getting started is simple. You can reach out to us through our contact form, email us at ${contactInfo.email}, or request a demo of our products. We'll schedule a consultation to understand your needs and propose the right solution.` },
 ];
 
 /* ============================================================
@@ -119,7 +114,6 @@ const AboutPage = () => {
   const [differentiatorsRef, differentiatorsVisible] = useScrollReveal({ threshold: 0.05 });
   const [timelineRef, timelineVisible] = useScrollReveal({ threshold: 0.05 });
   const [industriesRef, industriesVisible] = useScrollReveal({ threshold: 0.1 });
-  const [teamRef, teamVisible] = useScrollReveal({ threshold: 0.05 });
   const [statsRef, statsVisible] = useScrollReveal({ threshold: 0.2 });
   const [faqRef, faqVisible] = useScrollReveal({ threshold: 0.1 });
   const [faqOpenIndex, setFaqOpenIndex] = React.useState(null);

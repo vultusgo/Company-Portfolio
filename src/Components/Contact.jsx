@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiSend } from "react-icons/fi";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { contactInfo as company, mailtoHref, telHref } from "../data/contactInfo";
 
 const contactInfo = [
-  { icon: FiMail, label: "Email", value: "vultusgo@gmail.com", href: "mailto:vultusgo@gmail.com" },
-  { icon: FiPhone, label: "Phone", value: "+1 (555) 000-0000", href: "tel:+15550000000" },
-  { icon: FiMapPin, label: "Location", value: "Silicon Valley, CA", href: "#" },
+  { icon: FiMail, label: "Email", value: company.email, href: mailtoHref },
+  { icon: FiPhone, label: "Phone", value: company.phone.display, href: telHref },
+  { icon: FiMapPin, label: "Location", value: company.address.display, href: null },
 ];
 
 const Contact = () => {
@@ -52,7 +53,7 @@ const Contact = () => {
           <p className={`text-lg text-surface-500 leading-relaxed transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}>
-            Have a project in mind? Reach out and our team will get back to you within 24 hours.
+            Have a project in mind? Reach out and our team will get back to you {company.responseTime}.
           </p>
         </div>
 
@@ -78,7 +79,7 @@ const Contact = () => {
               </div>
             ))}
             <p className="text-[10px] font-semibold text-surface-400 uppercase tracking-wider pt-2">
-              Mon — Fri: 9 AM — 6 PM
+              {company.hours.display}
             </p>
           </div>
 

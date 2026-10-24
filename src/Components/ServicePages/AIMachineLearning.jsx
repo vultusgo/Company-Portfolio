@@ -1,4 +1,3 @@
-import React from "react";
 import { FiCpu } from "react-icons/fi";
 import {
   ServiceHero, OverviewSection, WhatWeOffer, WhyChooseUs,

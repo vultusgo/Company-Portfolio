@@ -1,14 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   FiZap,
   FiLayers,
   FiLock,
-  FiTarget,
-  FiTrendingUp,
   FiGlobe,
   FiCpu,
-  FiCloud,
   FiActivity,
   FiCheckCircle,
 } from "react-icons/fi";
@@ -74,7 +71,7 @@ const futureFocusCards = [
 const Vision = () => {
   const [hoveredStage, setHoveredStage] = useState(null);
   const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -91,11 +88,7 @@ const Vision = () => {
       observer.observe(sectionRef.current);
     }
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (

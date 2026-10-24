@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiSend, FiCheck, FiAlertCircle, FiClock, FiArrowDown, } from "react-icons/fi";
+import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiCheck, FiAlertCircle, FiClock, FiArrowDown, } from "react-icons/fi";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { init, send } from "@emailjs/browser";
 import Navbar from "./Navbar";
 import Footer from "./Footer"
+import { contactInfo as company, mailtoHref, telHref } from "../data/contactInfo";
 
 /* ============================================================
    CONFIGURATION
@@ -30,9 +31,9 @@ if (EMAILJS_PUBLIC_KEY) {
    ============================================================ */
 
 const contactInfo = [
-  { icon: FiMail, label: "Email", value: "vultusgo@gmail.com", href: "mailto:vultusgo@gmail.com" },
-  { icon: FiPhone, label: "Phone", value: "+1 (555) 000-0000", href: "tel:+15550000000" },
-  { icon: FiMapPin, label: "Location", value: "Silicon Valley, CA", href: "#" },
+  { icon: FiMail, label: "Email", value: company.email, href: mailtoHref },
+  { icon: FiPhone, label: "Phone", value: company.phone.display, href: telHref },
+  { icon: FiMapPin, label: "Location", value: company.address.display, href: null },
 ];
 
 const whyContactUs = [
@@ -210,7 +211,7 @@ const ContactPage = () => {
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
-        to_email: "vultusgo@gmail.com",
+        to_email: company.email,
       };
 
       await send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
@@ -297,7 +298,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-surface-400 uppercase tracking-wider mb-0.5">Business Hours</p>
-                  <p className="text-sm font-semibold text-black">Mon — Fri: 9 AM — 6 PM</p>
+                  <p className="text-sm font-semibold text-black">{company.hours.display}</p>
                 </div>
               </div>
             </div>
@@ -325,7 +326,7 @@ const ContactPage = () => {
                       <FiAlertCircle size={28} className="text-red-500" />
                     </div>
                     <h3 className="text-xl font-bold text-black mb-2">Something Went Wrong</h3>
-                    <p className="text-surface-500 mb-6">We couldn't send your message. Please try again in a few moments or email us directly at vultusgo@gmail.com</p>
+                    <p className="text-surface-500 mb-6">We couldn't send your message. Please try again in a few moments or email us directly at {company.email}</p>
                     <button
                       onClick={() => setSubmitStatus(null)}
                       className="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition-all"

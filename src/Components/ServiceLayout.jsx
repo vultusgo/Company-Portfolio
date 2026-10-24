@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiCheck, FiArrowDown, FiGlobe } from "react-icons/fi";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import ActionLink from "./ui/ActionLink";
 
 /* ============================================================
    REUSABLE SERVICE PAGE LAYOUT
@@ -29,7 +30,7 @@ export const SectionSubtext = ({ children, isVisible, delay = 200 }) => (
 );
 
 export const CtaButton = ({ to, children, primary = true }) => (
-  <Link
+  <ActionLink
     to={to}
     className={`inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-2xl transition-all hover:-translate-y-0.5 ${
       primary
@@ -38,14 +39,18 @@ export const CtaButton = ({ to, children, primary = true }) => (
     }`}
   >
     {children}
-    <FiArrowRight size={18} />
-  </Link>
+    <FiArrowRight size={18} aria-hidden="true" />
+  </ActionLink>
 );
 
 /* ============================================================
    HERO
    ============================================================ */
-export const ServiceHero = ({ title, description, breadcrumbParent, icon: Icon }) => {
+/**
+ * ctaTo: destination of the hero buttons. Internal path ("/contact") or an
+ * external URL ("https://dev.vultusgo.in"). External URLs open in a new tab.
+ */
+export const ServiceHero = ({ title, description, breadcrumbParent, icon: Icon, ctaTo = "/contact" }) => {
   const [ref, isVisible] = useScrollReveal({ threshold: 0.1 });
 
   return (
@@ -85,8 +90,8 @@ export const ServiceHero = ({ title, description, breadcrumbParent, icon: Icon }
               {description}
             </p>
             <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <CtaButton to="/#contact">Get Started</CtaButton>
-              <CtaButton to="/#contact" primary={false}>Contact Us</CtaButton>
+              <CtaButton to={ctaTo}>Get Started</CtaButton>
+              <CtaButton to={ctaTo} primary={false}>Contact Us</CtaButton>
             </div>
           </div>
 
@@ -133,7 +138,7 @@ export const OverviewSection = ({ title, paragraphs }) => {
 /* ============================================================
    WHAT WE OFFER
    ============================================================ */
-export const WhatWeOffer = ({ items, icon: Icon }) => {
+export const WhatWeOffer = ({ items }) => {
   const [ref, isVisible] = useScrollReveal({ threshold: 0.05 });
 
   return (
@@ -453,7 +458,7 @@ export const RJTechForceSection = () => {
 /* ============================================================
    FINAL CTA
    ============================================================ */
-export const ServiceCTA = ({ title = "Ready to Get Started?", subtitle = "Let's discuss your project and build something extraordinary together." }) => {
+export const ServiceCTA = ({ title = "Ready to Get Started?", subtitle = "Let's discuss your project and build something extraordinary together.", ctaTo = "/contact" }) => {
   const [ref, isVisible] = useScrollReveal({ threshold: 0.2 });
 
   return (
@@ -467,10 +472,10 @@ export const ServiceCTA = ({ title = "Ready to Get Started?", subtitle = "Let's 
             <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-white leading-tight mb-6">{title}</h2>
             <p className="max-w-2xl mx-auto text-lg text-surface-400 leading-relaxed mb-10">{subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CtaButton to="/#contact">Start a Project</CtaButton>
-              <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold rounded-2xl transition-all hover:-translate-y-0.5">
-                Request a Consultation <FiArrowRight size={18} />
-              </Link>
+              <CtaButton to={ctaTo}>Start a Project</CtaButton>
+              <ActionLink to={ctaTo} className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold rounded-2xl transition-all hover:-translate-y-0.5">
+                Request a Consultation <FiArrowRight size={18} aria-hidden="true" />
+              </ActionLink>
             </div>
           </div>
         </div>

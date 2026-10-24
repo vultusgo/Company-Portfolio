@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/Images/VG Logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/Images/VG Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f97316" />
 
@@ -87,6 +88,10 @@
     <!-- Performance: Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
     <link rel="dns-prefetch" href="https://api.dicebear.com" />
     <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
 
@@ -117,41 +122,31 @@
           "url": "https://www.vultusgo.in/Images/og-preview.png"
         },
         "description": "Vultus Go is a technology company focused on developing intelligent software products, automation systems, AI-powered solutions, and future-ready digital innovations that help organizations improve efficiency and embrace the future of technology.",
-        "email": "vultusgo@gmail.com",
-        "telephone": "+15550000000",
+        "email": "__CONTACT_EMAIL__",
+        "telephone": "__CONTACT_PHONE__",
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Silicon Valley",
-          "addressRegion": "CA",
-          "addressCountry": "US"
+          "addressLocality": "__ADDR_LOCALITY__",
+          "addressRegion": "__ADDR_REGION__",
+          "addressCountry": "__ADDR_COUNTRY__",
+          "postalCode": "__ADDR_POSTAL__"
         },
         "contactPoint": [
           {
             "@type": "ContactPoint",
-            "telephone": "+15550000000",
-            "email": "vultusgo@gmail.com",
+            "telephone": "__CONTACT_PHONE__",
+            "email": "__CONTACT_EMAIL__",
             "contactType": "customer support",
             "availableLanguage": "English",
             "hoursAvailable": {
               "@type": "OpeningHoursSpecification",
-              "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-              ],
-              "opens": "09:00",
-              "closes": "18:00"
+              "dayOfWeek": __HOURS_DAYS__,
+              "opens": "__HOURS_OPENS__",
+              "closes": "__HOURS_CLOSES__"
             }
           }
         ],
-        "sameAs": [
-          "https://www.linkedin.com/company/vultusgo",
-          "https://github.com/vultusgo",
-          "https://twitter.com/vultusgo",
-          "https://www.instagram.com/vultusgo"
-        ],
+        "sameAs": __SAME_AS__,
         "foundingDate": "2024",
         "knowsAbout": [
           "Artificial Intelligence",

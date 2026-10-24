@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FiChevronRight,
   FiCheck,
   FiSettings,
   FiZap,
-  FiGlobe,
   FiSend,
   FiClock,
   FiShield,

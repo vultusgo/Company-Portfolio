@@ -1,304 +1,284 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { FiMenu, FiX, FiChevronDown, FiArrowRight } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { FiMenu, FiX, FiChevronDown, FiArrowRight, FiArrowUpRight, FiTerminal } from "react-icons/fi";
+import { devPortal, contactInfo } from "../data/contactInfo";
 
 const navLinks = [
-  { name: "Home", path: "/" },
+  { name: "Home", to: "/", end: true },
   {
     name: "Services",
-    path: "/services",
-    hasDropdown: true,
+    to: "/services",
     children: [
-      { name: "Web Development", path: "/services/web-development" },
-      { name: "Mobile App Development", path: "/services/mobile-app-development" },
-      { name: "Custom Software Development", path: "/services/custom-software-development" },
-      { name: "AI & Machine Learning", path: "/services/ai-machine-learning" },
-      { name: "UI/UX Design", path: "/services/ui-ux-design" },
-      { name: "Digital Transformation", path: "/services/digital-transformation" },
-      { name: "Maintenance & Support", path: "/services/maintenance-support" },
+      { name: "Web Development", to: "/services/web-development" },
+      { name: "Mobile App Development", to: "/services/mobile-app-development" },
+      { name: "Custom Software Development", to: "/services/custom-software-development" },
+      { name: "AI & Machine Learning", to: "/services/ai-machine-learning" },
+      { name: "UI/UX Design", to: "/services/ui-ux-design" },
+      { name: "Digital Transformation", to: "/services/digital-transformation" },
+      { name: "Maintenance & Support", to: "/services/maintenance-support" },
     ],
   },
   {
     name: "Products",
-    path: "/products",
-    hasDropdown: true,
+    to: "/products",
     children: [
-      { name: "Facial Recognition Attendance", path: "/products/facial-recognition-attendance-system" },
+      { name: "Facial Recognition Attendance", to: "/products/facial-recognition-attendance-system" },
     ],
   },
-  { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact", hash: "contact" },
+  { name: "About", to: "/about" },
+  { name: "Contact", to: "/contact" },
 ];
 
+const desktopLink = (isActive) =>
+  `px-3 py-2 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1 ${
+    isActive
+      ? "text-brand-700 bg-brand-50"
+      : "text-surface-600 hover:text-surface-900 hover:bg-surface-100"
+  }`;
+
+/** External portal link. Always opens safely in a new tab. */
+const DevStudioPill = ({ className = "", onClick }) => (
+  <a
+    href={devPortal.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    onClick={onClick}
+    title={devPortal.description}
+    className={`group inline-flex items-center gap-2 font-mono text-xs font-medium tracking-wider uppercase text-surface-800 bg-white border border-surface-300 rounded-lg px-3 py-2 hover:border-brand-700 hover:text-brand-700 transition-colors ${className}`}
+  >
+    <FiTerminal size={14} aria-hidden="true" />
+    {devPortal.label}
+    <FiArrowUpRight
+      size={14}
+      aria-hidden="true"
+      className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+    />
+    <span className="sr-only">(opens in a new tab)</span>
+  </a>
+);
+
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
-  const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [expanded, setExpanded] = useState(null); // mobile accordion
+  const { pathname } = useLocation();
 
+  // Close menu on navigation (adjust state during render, not in an effect)
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setMobileOpen(false);
+    setExpanded(null);
+  }
+
+  // Lock body scroll while the mobile menu is open; close on Escape
   useEffect(() => {
-    setIsVisible(true);
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    const onKey = (e) => e.key === "Escape" && setMobileOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isMobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [isMobileOpen]);
-
-  useEffect(() => {
-    setIsMobileOpen(false);
-    setServicesOpen(false);
-    setProductsOpen(false);
-  }, [location]);
-
-  const handleNavClick = (e, link) => {
-    setIsMobileOpen(false);
-    if (location.pathname === "/" && link.hash) {
-      e.preventDefault();
-      const el = document.getElementById(link.hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const isActive = (link) => {
-    if (link.path === "/about" && location.pathname === "/about") return true;
-    if (link.path === "/contact" && location.pathname === "/contact") return true;
-    if (link.path === "/services" && location.pathname.startsWith("/services")) return true;
-    if (link.path === "/products" && location.pathname.startsWith("/products")) return true;
-    return false;
-  };
+  }, [mobileOpen]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${
-        isScrolled
-          ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_3px_0_rgb(0_0_0/0.06)]"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20 lg:h-24">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group" aria-label="Vultus Go — Home">
-            <div className="relative w-10 h-10 lg:w-12 lg:h-12">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl opacity-20 group-hover:opacity-30 transition-opacity blur-md" />
-              <div className="relative w-full h-full bg-white rounded-xl border border-surface-200 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-                <span className="text-lg lg:text-xl font-bold text-surface-900">
-                  V<span className="text-brand-500">G</span>
-                </span>
-              </div>
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-xl font-bold text-surface-900 tracking-tight">
-                Vultus<span className="text-brand-500">Go</span>
+    <>
+      <header className="fixed top-0 inset-x-0 z-[100] bg-white/80 backdrop-blur-md border-b border-surface-200/50">
+        <nav className="container-x" aria-label="Primary">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2.5" aria-label="Vultus Go home">
+              <span className="w-8 h-8 rounded-lg bg-surface-950 flex items-center justify-center text-sm font-bold text-white">
+                V<span className="text-brand-400">G</span>
               </span>
-            </div>
-          </Link>
+              <span className="hidden sm:inline text-lg font-bold tracking-tight text-surface-900">
+                Vultus<span className="text-brand-700">Go</span>
+              </span>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const active = isActive(link);
-              if (link.hasDropdown) {
-                const isServices = link.name === "Services";
-                const isProducts = link.name === "Products";
-                const isOpen = isServices ? servicesOpen : isProducts ? productsOpen : false;
-                const setIsOpen = isServices ? setServicesOpen : isProducts ? setProductsOpen : () => {};
-
-                return (
-                  <div
-                    key={link.name}
-                    className="relative group"
-                    onMouseEnter={() => {
-                      setServicesOpen(false);
-                      setProductsOpen(false);
-                      setIsOpen(true);
-                    }}
-                    onMouseLeave={() => setIsOpen(false)}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg flex items-center gap-1 ${
-                        active
-                          ? "text-brand-600 bg-brand-50"
-                          : "text-surface-600 hover:text-surface-900 hover:bg-surface-50"
-                      }`}
-                    >
+            {/* Desktop navigation */}
+            <div className="hidden lg:flex items-center gap-1">
+              {navLinks.map((link) =>
+                link.children ? (
+                  <div key={link.name} className="relative group">
+                    <NavLink to={link.to} className={({ isActive }) => desktopLink(isActive)}>
                       {link.name}
-                      <FiChevronDown size={14} className={`text-surface-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-                    </Link>
-                    {/* Dropdown */}
-                    <div className={`absolute top-full left-0 mt-1 w-64 bg-white border border-surface-100 rounded-2xl shadow-xl shadow-black/5 overflow-hidden transition-all duration-200 ${
-                      isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
-                    }`}>
-                      <div className="py-2">
+                      <FiChevronDown
+                        size={14}
+                        aria-hidden="true"
+                        className="text-surface-500 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+                      />
+                    </NavLink>
+                    {/* Dropdown: CSS-driven so it works with hover AND keyboard focus */}
+                    <div className="absolute left-0 top-full pt-2 w-72 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-150">
+                      <div className="bg-white border border-surface-200 rounded-xl shadow-[var(--shadow-card-hover)] p-1.5">
                         {link.children.map((child) => (
-                          <Link
-                            key={child.path}
-                            to={child.path}
-                            className={`block px-5 py-2.5 text-sm font-medium transition-colors ${
-                              location.pathname === child.path
-                                ? "text-brand-600 bg-brand-50"
-                                : "text-surface-600 hover:text-brand-600 hover:bg-brand-50"
-                            }`}
+                          <NavLink
+                            key={child.to}
+                            to={child.to}
+                            className={({ isActive }) =>
+                              `block px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                isActive
+                                  ? "text-brand-700 bg-brand-50"
+                                  : "text-surface-700 hover:text-surface-900 hover:bg-surface-100"
+                              }`
+                            }
                           >
                             {child.name}
-                          </Link>
+                          </NavLink>
                         ))}
                       </div>
                     </div>
                   </div>
-                );
-              }
-              return (
-                <Link
-                  key={link.name}
-                  to={link.hash ? `${link.path}#${link.hash}` : link.path}
-                  onClick={(e) => handleNavClick(e, link)}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    active
-                      ? "text-brand-600 bg-brand-50"
-                      : "text-surface-600 hover:text-surface-900 hover:bg-surface-50"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </div>
+                ) : (
+                  <NavLink
+                    key={link.name}
+                    to={link.to}
+                    end={link.end}
+                    className={({ isActive }) => desktopLink(isActive)}
+                  >
+                    {link.name}
+                  </NavLink>
+                ),
+              )}
+            </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link
-              to="/#contact"
-              onClick={(e) => {
-                if (location.pathname === "/") {
-                  e.preventDefault();
-                  const el = document.getElementById("contact");
-                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="px-6 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            {/* Desktop actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              <DevStudioPill />
+              <Link to="/contact" className="btn btn-primary">
+                Request a Demo
+                <FiArrowRight size={16} className="btn-arrow" aria-hidden="true" />
+              </Link>
+            </div>
+
+            {/* Mobile toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen((o) => !o)}
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-surface-200 bg-white hover:bg-surface-100 transition-colors cursor-pointer"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
             >
-              Get Started
-            </Link>
+              {mobileOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+            </button>
           </div>
+        </nav>
+      </header>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden p-2.5 rounded-xl bg-surface-100 hover:bg-surface-200 transition-colors cursor-pointer"
-            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileOpen}
-          >
-            {isMobileOpen ? <FiX size={22} /> : <FiMenu size={22} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
+      {/*
+        Mobile menu is a SIBLING of <header>, not a child: backdrop-filter on the
+        header creates a containing block that would trap a position:fixed child.
+      */}
       <div
-        className={`fixed inset-0 top-0 left-0 w-full h-full bg-white z-[110] lg:hidden transition-all duration-400 ${
-          isMobileOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+        id="mobile-menu"
+        className={`fixed inset-0 z-[110] bg-white lg:hidden transition-opacity duration-200 ${
+          mobileOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
+        aria-hidden={!mobileOpen}
       >
-        <div className="flex flex-col h-full p-6">
-          <div className="flex items-center justify-between mb-8">
-            <Link to="/" className="flex items-center gap-3" onClick={() => setIsMobileOpen(false)}>
-              <div className="w-10 h-10 bg-white rounded-xl border border-surface-200 flex items-center justify-center shadow-sm">
-                <span className="text-lg font-bold">V<span className="text-brand-500">G</span></span>
-              </div>
-              <span className="text-xl font-bold">Vultus<span className="text-brand-500">Go</span></span>
+        <div className="flex flex-col h-full px-6 pb-6">
+          <div className="flex items-center justify-between h-16 shrink-0">
+            <Link to="/" className="flex items-center gap-2.5" aria-label="Vultus Go home">
+              <span className="w-8 h-8 rounded-lg bg-surface-950 flex items-center justify-center text-sm font-bold text-white">
+                V<span className="text-brand-400">G</span>
+              </span>
+              <span className="text-lg font-bold tracking-tight">
+                Vultus<span className="text-brand-700">Go</span>
+              </span>
             </Link>
-            <button onClick={() => setIsMobileOpen(false)} className="p-2.5 rounded-xl bg-surface-100 hover:bg-surface-200 transition-colors cursor-pointer" aria-label="Close menu">
-              <FiX size={22} />
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-200 hover:bg-surface-100 transition-colors cursor-pointer"
+              aria-label="Close menu"
+            >
+              <FiX size={20} />
             </button>
           </div>
 
-          <nav className="flex flex-col gap-1 overflow-y-auto flex-1">
-            {navLinks.map((link) => (
-              <div key={link.name}>
-                {link.hasDropdown ? (
-                  <>
-                    <button
-                      onClick={() => {
-                        const isServices = link.name === "Services";
-                        const isProducts = link.name === "Products";
-                        if (isServices) {
-                          setServicesOpen(!servicesOpen);
-                          setProductsOpen(false);
-                        } else if (isProducts) {
-                          setProductsOpen(!productsOpen);
-                          setServicesOpen(false);
-                        }
-                      }}
-                      className="flex items-center justify-between w-full px-4 py-4 text-lg font-semibold text-surface-800 hover:text-brand-500 hover:bg-brand-50 rounded-xl transition-all cursor-pointer"
-                    >
-                      {link.name}
-                      <FiChevronDown size={18} className={`text-surface-400 transition-transform duration-200 ${link.name === "Services" ? servicesOpen : productsOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    {(link.name === "Services" ? servicesOpen : productsOpen) && (
-                      <div className="ml-4 mb-2 space-y-1">
-                        {link.children.map((child) => (
-                          <Link
-                            key={child.path}
-                            to={child.path}
-                            onClick={() => setIsMobileOpen(false)}
-                            className={`block px-4 py-3 text-sm font-medium rounded-xl transition-all ${
-                              location.pathname === child.path
-                                ? "text-brand-600 bg-brand-50"
-                                : "text-surface-600 hover:text-brand-500 hover:bg-brand-50"
-                            }`}
-                          >
-                            {child.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to={link.hash ? `${link.path}#${link.hash}` : link.path}
-                    onClick={(e) => handleNavClick(e, link)}
-                    className={`flex items-center justify-between px-4 py-4 text-lg font-semibold rounded-xl transition-all ${
-                      isActive(link)
-                        ? "text-brand-600 bg-brand-50"
-                        : "text-surface-800 hover:text-brand-500 hover:bg-brand-50"
-                    }`}
+          <nav className="flex-1 overflow-y-auto py-4" aria-label="Mobile">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.name} className="border-b border-surface-100">
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(expanded === link.name ? null : link.name)}
+                    aria-expanded={expanded === link.name}
+                    className="flex items-center justify-between w-full py-4 text-lg font-semibold text-surface-900 cursor-pointer"
                   >
                     {link.name}
-                    <FiArrowRight size={18} className="text-surface-400" />
-                  </Link>
-                )}
-              </div>
-            ))}
+                    <FiChevronDown
+                      size={18}
+                      aria-hidden="true"
+                      className={`text-surface-500 transition-transform duration-200 ${
+                        expanded === link.name ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {expanded === link.name && (
+                    <div className="pb-3 pl-3 space-y-1">
+                      <Link to={link.to} className="block py-2.5 text-sm font-medium text-brand-700">
+                        All {link.name.toLowerCase()}
+                      </Link>
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.to}
+                          to={child.to}
+                          className="block py-2.5 text-sm font-medium text-surface-700 hover:text-brand-700"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <NavLink
+                  key={link.name}
+                  to={link.to}
+                  end={link.end}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between py-4 text-lg font-semibold border-b border-surface-100 ${
+                      isActive ? "text-brand-700" : "text-surface-900"
+                    }`
+                  }
+                >
+                  {link.name}
+                  <FiArrowRight size={18} aria-hidden="true" className="text-surface-500" />
+                </NavLink>
+              ),
+            )}
+
+            {/* Dev Studio card */}
+            <a
+              href={devPortal.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex items-center justify-between gap-4 p-4 rounded-xl border border-surface-200 bg-surface-50"
+            >
+              <span>
+                <span className="flex items-center gap-2 font-mono text-xs font-medium tracking-wider uppercase text-brand-700">
+                  <FiTerminal size={14} aria-hidden="true" /> {devPortal.label}
+                </span>
+                <span className="block mt-1 text-sm text-surface-700">{devPortal.description}</span>
+              </span>
+              <FiArrowUpRight size={18} aria-hidden="true" className="text-surface-700 shrink-0" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
           </nav>
 
-          <div className="mt-auto space-y-4 pt-4">
-            <div className="h-px bg-surface-100" />
-            <p className="text-sm text-surface-500">vultusgo@gmail.com</p>
-            <Link
-              to="/#contact"
-              onClick={() => setIsMobileOpen(false)}
-              className="block w-full py-4 bg-brand-500 hover:bg-brand-600 text-white text-center font-semibold rounded-xl transition-all shadow-sm"
-            >
-              Get Started
+          <div className="shrink-0 pt-4 space-y-3 border-t border-surface-100">
+            <p className="text-sm text-surface-600">{contactInfo.email}</p>
+            <Link to="/contact" className="btn btn-primary btn-lg w-full">
+              Request a Demo
+              <FiArrowRight size={16} className="btn-arrow" aria-hidden="true" />
             </Link>
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 

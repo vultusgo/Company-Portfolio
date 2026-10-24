@@ -1,4 +1,3 @@
-import React from "react";
 import { FiServer } from "react-icons/fi";
 import {
   ServiceHero, OverviewSection, WhatWeOffer, WhyChooseUs,

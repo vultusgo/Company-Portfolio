@@ -23,6 +23,15 @@
   --color-surface-800: #27272A;
   --color-surface-900: #18181B;
   --color-surface-950: #0A0A0B;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Elevation: crisp, low-blur, border-led */
+  --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.04), 0 1px 1px 0 rgb(24 24 27 / 0.03);
+  --shadow-card-hover: 0 8px 24px -8px rgb(24 24 27 / 0.12), 0 2px 4px -2px rgb(24 24 27 / 0.06);
+  --shadow-cta: 0 1px 0 0 rgb(255 255 255 / 0.12) inset, 0 6px 16px -6px rgb(194 65 12 / 0.55);
 }
 
 html {
@@ -211,7 +220,7 @@ body {
 
 /* Focus Styles */
 *:focus-visible {
-  outline: 2px solid #F97316;
+  outline: 2px solid #EA580C;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -221,3 +230,110 @@ body {
   background: #F97316;
   color: white;
 }
+/* ============================================================
+   DESIGN SYSTEM: reusable component primitives
+   Contrast rule: text on light surfaces uses brand-700 (5.2:1 on white).
+   brand-600 (3.6:1) is for large text / UI strokes only. brand-500 is
+   for fills and icons, never for body-size text on light backgrounds.
+   Minimum text size is 12px (text-xs).
+   ============================================================ */
+@layer components {
+  /* Layout */
+  .container-x { max-width: 80rem; margin-inline: auto; padding-inline: 1.5rem; }
+  @media (min-width: 1024px) { .container-x { padding-inline: 3rem; } }
+  .section-y { padding-block: 5rem; }
+  @media (min-width: 1024px) { .section-y { padding-block: 7rem; } }
+
+  /* Subtle engineering grid, masked to fade out (no blobs) */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(24 24 27 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(24 24 27 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  /* Monospace pill: tech indicators, labels, tags */
+  .badge-mono {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.75rem; line-height: 1rem;
+    font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0.25rem 0.75rem; border-radius: 9999px;
+    color: var(--color-brand-700); background: var(--color-brand-50);
+    border: 1px solid var(--color-brand-200);
+  }
+  .badge-mono-neutral {
+    color: var(--color-surface-600); background: var(--color-surface-50);
+    border-color: var(--color-surface-200);
+  }
+
+  /* Buttons */
+  .btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    gap: 0.5rem; font-weight: 600; font-size: 0.875rem; line-height: 1.25rem;
+    padding: 0.75rem 1.25rem; border-radius: 0.75rem; cursor: pointer;
+    transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease, border-color 150ms ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-lg { padding: 0.875rem 1.5rem; font-size: 1rem; line-height: 1.5rem; }
+  .btn-primary { color: #fff; background: var(--color-brand-600); box-shadow: var(--shadow-cta); }
+  .btn-primary:hover { background: var(--color-brand-700); transform: translateY(-1px); }
+  .btn-secondary { color: var(--color-surface-900); background: #fff; border: 1px solid var(--color-surface-300); box-shadow: var(--shadow-card); }
+  .btn-secondary:hover { border-color: var(--color-surface-900); transform: translateY(-1px); }
+  .btn .btn-arrow { transition: transform 150ms ease; }
+  .btn:hover .btn-arrow { transform: translateX(3px); }
+
+  /* Card with gradient-border glow on hover (mask technique, GPU cheap) */
+  .card-glow {
+    position: relative; background: #fff; border: 1px solid var(--color-surface-200);
+    border-radius: 1rem; box-shadow: var(--shadow-card);
+    transition: box-shadow 200ms ease, transform 200ms ease;
+  }
+  .card-glow::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+    background: linear-gradient(135deg, var(--color-brand-500), transparent 45%, var(--color-brand-300));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 200ms ease; pointer-events: none;
+  }
+  .card-glow:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-2px); }
+  .card-glow:hover::before { opacity: 1; }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  /* Dark-surface variants */
+  .btn-ghost-dark {
+    color: #fff; background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.15);
+  }
+  .btn-ghost-dark:hover { background: rgb(255 255 255 / 0.12); border-color: rgb(255 255 255 / 0.3); transform: translateY(-1px); }
+
+  .card-glow-dark {
+    position: relative; background: var(--color-surface-900); border: 1px solid var(--color-surface-800);
+    border-radius: 1rem; transition: transform 200ms ease, border-color 200ms ease;
+  }
+  .card-glow-dark::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+    background: linear-gradient(135deg, var(--color-brand-500), transparent 50%, var(--color-brand-400));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 200ms ease; pointer-events: none;
+  }
+  .card-glow-dark:hover { transform: translateY(-2px); }
+  .card-glow-dark:hover::before { opacity: 1; }
+
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* Anchored sections clear the fixed navbar */
+[id] { scroll-margin-top: 5rem; }

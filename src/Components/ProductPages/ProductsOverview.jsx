@@ -1,10 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import {
   FiArrowRight, FiCpu, FiShield, FiZap, FiLock, FiUsers,
-  FiCloud, FiCheck, FiArrowDown,
+  FiCloud,
 } from "react-icons/fi";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
