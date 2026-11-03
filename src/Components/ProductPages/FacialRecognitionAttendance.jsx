@@ -156,7 +156,7 @@ const FacialRecognitionAttendance = () => {
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-black/5 via-black/[0.02] to-transparent blur-[100px] rounded-full translate-y-1/4 -translate-x-1/4" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className={`mb-8 transition-all duration-700 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <ol className="flex items-center gap-2 text-sm text-surface-400">
@@ -219,7 +219,6 @@ const FacialRecognitionAttendance = () => {
             </div>
           </div>
         </div>
-              <ProductDetailsLink />
       </section>
 
       {/* ========== OVERVIEW ========== */}
