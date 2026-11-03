@@ -595,16 +595,15 @@ const FacialRecognitionAttendance = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
-                  Request a Live Demo <FiArrowRight size={18} />
+                  Book Installation <FiArrowRight size={18} />
                 </Link>
-                <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold rounded-2xl transition-all hover:-translate-y-0.5">
-                  Contact Our Team <FiArrowRight size={18} />
-                </Link>
+                <a href="https://vultusgo-product.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold rounded-2xl transition-all hover:-translate-y-0.5">
+                  Product Details <FiArrowRight size={18} />
+                </a>
               </div>
             </div>
           </div>
         </div>
-              <ProductDetailsLink />
       </section>
     </>
   );
