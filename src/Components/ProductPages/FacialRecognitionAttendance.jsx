@@ -12,35 +12,25 @@ import { useScrollReveal } from "../../hooks/useScrollReveal";
    ============================================================ */
 
 const problems = [
-  { icon: FiClock, title: "Time-Consuming Manual Attendance", desc: "Manual roll calls and paperwork waste valuable class and work hours every single day." },
-  { icon: FiUsers, title: "Proxy Attendance", desc: "Traditional systems allow buddy punching and proxy marking, compromising attendance integrity." },
-  { icon: FiBarChart2, title: "Inaccurate Records", desc: "Human error leads to incorrect attendance data, affecting payroll, grades, and compliance." },
-  { icon: FiLock, title: "Paper-Based Records", desc: "Physical registers are hard to maintain, search, and analyze. They degrade over time." },
-  { icon: FiClock, title: "Delayed Reporting", desc: "Generating attendance reports manually takes hours or days, delaying critical decisions." },
-  { icon: FiCpu, title: "Administrative Overload", desc: "Staff spend excessive time on attendance tasks instead of focusing on core responsibilities." },
+  { icon: FiUsers, title: "Proxy Attendance", desc: "Students can sign in for absent peers, creating inaccurate records and avoidable liability." },
+  { icon: FiLock, title: "Manual Registers", desc: "Paper registers slow teachers down and create duplicate data entry." },
+  { icon: FiClock, title: "Time Wastage", desc: "Valuable classroom time is lost to roll calls when attendance can be automated." },
 ];
 
 const features = [
-  { icon: FiCpu, title: "AI Facial Recognition", desc: "Advanced deep learning models detect and verify faces with 99%+ accuracy in real time." },
-  { icon: FiCamera, title: "Real-Time Attendance", desc: "Instant attendance marking as individuals approach the camera — no cards, no fingerprints." },
-  { icon: FiMonitor, title: "Live Camera Monitoring", desc: "Monitor multiple live camera feeds from a centralized dashboard in real time." },
-  { icon: FiBarChart2, title: "Automatic Reports", desc: "Generate daily, weekly, monthly, and custom attendance reports with one click." },
-  { icon: FiUsers, title: "Student & Employee Management", desc: "Comprehensive profiles with photos, departments, classes, and attendance history." },
-  { icon: FiZap, title: "Unknown Face Detection", desc: "Instantly alerts security when unrecognized faces are detected in restricted areas." },
-  { icon: FiClock, title: "Attendance History", desc: "Complete historical records with advanced filtering, search, and export capabilities." },
-  { icon: FiBarChart2, title: "Dashboard Analytics", desc: "Visual charts and insights on attendance patterns, trends, and anomalies." },
-  { icon: FiLock, title: "Role-Based Access", desc: "Granular permissions for admins, teachers, managers, and security personnel." },
-  { icon: FiShield, title: "Secure Data Management", desc: "End-to-end encryption, secure storage, and compliance-ready data handling." },
-  { icon: FiZap, title: "Fast Recognition", desc: "Sub-second face recognition even with large databases of thousands of individuals." },
-  { icon: FiCamera, title: "Multi-Camera Support", desc: "Connect and manage multiple cameras across different locations from a single system." },
-  { icon: FiCloud, title: "Cloud Synchronization", desc: "Real-time sync across devices and locations with automatic backups." },
-  { icon: FiWifi, title: "Offline Attendance", desc: "Works without internet and automatically syncs data when connectivity is restored." },
+  { icon: FiCpu, title: "Real-Time Face Recognition", desc: "AI-powered face detection and identity matching to record attendance automatically." },
+  { icon: FiZap, title: "Unknown Person Alerts", desc: "Identify unrecognized people and surface alerts for campus teams." },
+  { icon: FiCalendar, title: "One Attendance Per Day", desc: "Apply a consistent daily attendance record for each enrolled student." },
+  { icon: FiMonitor, title: "Live Dashboard", desc: "Give administrators a clear, real-time view of attendance activity." },
+  { icon: FiBarChart2, title: "Attendance Reports", desc: "Review attendance records and reporting insights for school operations." },
+  { icon: FiWifi, title: "Parent SMS Alerts", desc: "Keep parents informed with attendance notifications." },
+  { icon: FiUsers, title: "Admin Management", desc: "Manage student records, attendance settings, and administrative access." },
 ];
 
 const modules = [
-  "Admin Dashboard", "Student Management", "Employee Management",
-  "Attendance Management", "Camera Management", "Reports & Analytics",
-  "Notifications", "Settings", "User Management",
+  "Live Attendance Dashboard", "Student & Face Registration", "Attendance Logs",
+  "Daily & Monthly Reports", "Unknown Person Alerts", "Parent SMS Notifications",
+  "Admin & User Management", "CCTV / IP Camera Integration", "Attendance Analytics",
 ];
 
 const industries = [
@@ -65,25 +55,21 @@ const technologies = [
 ];
 
 const steps = [
-  { num: "01", title: "Face Registration", desc: "Enroll individuals by capturing facial data and storing it securely in the system." },
-  { num: "02", title: "Camera Detection", desc: "Cameras continuously monitor entry/exit points and detect faces in real time." },
-  { num: "03", title: "AI Face Matching", desc: "Advanced AI algorithms match detected faces against registered profiles instantly." },
-  { num: "04", title: "Attendance Recorded", desc: "Attendance is automatically marked with timestamp and location data." },
-  { num: "05", title: "Dashboard Updated", desc: "Live dashboard reflects attendance status in real time for admins and managers." },
-  { num: "06", title: "Reports Generated", desc: "Comprehensive reports are auto-generated and can be exported in multiple formats." },
+  { num: "01", title: "Camera Feed", desc: "Connect CCTV or compatible smart cameras at school entry points." },
+  { num: "02", title: "Face Detection", desc: "The system scans live camera frames to detect faces." },
+  { num: "03", title: "AI Recognition", desc: "The recognition engine matches detected faces with registered student identities." },
+  { num: "04", title: "Attendance Logging", desc: "A successful match is recorded automatically in the attendance system." },
+  { num: "05", title: "Live Dashboard", desc: "Attendance activity becomes visible to administrators through the dashboard." },
 ];
 
 const faqs = [
-  { q: "How accurate is the facial recognition system?", a: "Our system achieves 99%+ accuracy under normal lighting conditions. It uses advanced deep learning models trained on diverse datasets to ensure reliable performance across different environments, angles, and lighting conditions." },
-  { q: "Can the system work without internet?", a: "Yes. The system supports offline attendance recording. Data is stored locally and automatically synchronized with the cloud once internet connectivity is restored, ensuring no attendance data is lost." },
-  { q: "Is internet required all the time?", a: "No. While cloud sync and remote access require internet, the core attendance functions work fully offline. You only need internet for cloud backup, remote dashboard access, and software updates." },
-  { q: "Can multiple cameras be connected?", a: "Absolutely. The system supports unlimited cameras across multiple locations. You can manage all cameras from a single centralized dashboard, making it ideal for large campuses and multi-building facilities." },
-  { q: "Is the attendance data secure?", a: "Yes. We use end-to-end encryption for all data transmission and storage. Facial data is encrypted and stored securely. The system complies with data protection regulations and offers role-based access controls." },
-  { q: "Can the system be customized for our organization?", a: "Yes. The system is highly customizable — from branding and UI to workflows, reports, and integrations. We work closely with your team to tailor the solution to your specific requirements." },
-  { q: "Is training provided for staff?", a: "Yes. We provide comprehensive training for administrators, teachers, and security staff. This includes hands-on sessions, video tutorials, and documentation. Ongoing support is also available." },
-  { q: "Is technical support available after deployment?", a: "Yes. We offer dedicated technical support with guaranteed response times. Our support team is available via phone, email, and chat for any issues, questions, or feature requests." },
-  { q: "How long does installation and setup take?", a: "Typical deployment takes 1-2 weeks depending on the number of cameras, users, and locations. Our team handles installation, configuration, data migration, and staff training." },
-  { q: "What happens if a person's appearance changes?", a: "The system can be easily updated with new facial data. Admins can re-enroll individuals with updated photos. The AI model adapts to minor changes like glasses, hairstyles, and aging over time." },
+  { q: "How much does Vultus Go cost?", a: "The listed plan is ₹70 per student per year, billed annually. For 500 students, that is ₹35,000 for the year." },
+  { q: "How accurate is the facial recognition engine?", a: "The product page lists 96.8% recognition accuracy as a performance metric. Actual results can vary with camera placement, lighting, and deployment conditions." },
+  { q: "How quickly is attendance recorded?", a: "The product page lists an attendance speed of 1.8 seconds." },
+  { q: "Can it work with existing CCTV?", a: "The system is designed to integrate with CCTV and IP camera feeds, subject to camera compatibility and installation review." },
+  { q: "What happens when an unknown person is detected?", a: "Unknown-person alerts are included among the product features to help campus teams identify unrecognized visitors." },
+  { q: "Does the system provide reports?", a: "Yes. Attendance reports and a live dashboard help administrators review attendance activity." },
+  { q: "Are parent notifications supported?", a: "Parent SMS alerts are listed as a product feature." },
 ];
 
 /* ============================================================
@@ -182,7 +168,7 @@ const FacialRecognitionAttendance = () => {
                 <span className="text-brand-500">Attendance System</span>
               </h1>
               <p className={`text-lg lg:text-xl text-surface-500 leading-relaxed max-w-xl mb-10 transition-all duration-700 delay-200 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                Transform the way you track attendance with intelligent computer vision. Fast, secure, fraud-proof, and designed for schools, colleges, offices, and government organizations.
+                Turn school arrival routines into intelligent automation with facial recognition, live attendance logs, and school-ready insights. Designed for administrators, teachers, and parents.
               </p>
               <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
                 <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
@@ -229,7 +215,7 @@ const FacialRecognitionAttendance = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-4xl mx-auto">
             <SectionLabel text="Product Overview" isVisible={overviewVisible} />
-            <SectionHeading isVisible={overviewVisible}>The Future of Attendance Management</SectionHeading>
+            <SectionHeading isVisible={overviewVisible}>AI Attendance Built for Modern Schools</SectionHeading>
             <div className={`space-y-5 text-lg text-surface-500 leading-relaxed transition-all duration-700 delay-300 ${overviewVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               <p>
                 The <span className="text-black font-semibold">AI-Powered Facial Recognition Attendance System</span> is a next-generation solution that replaces manual attendance methods with intelligent, automated face recognition technology.
@@ -291,8 +277,8 @@ const FacialRecognitionAttendance = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
             <SectionLabel text="Key Features" isVisible={featuresVisible} />
-            <SectionHeading isVisible={featuresVisible}>Powerful Features, Seamless Experience</SectionHeading>
-            <SectionSubtext isVisible={featuresVisible}>Every feature is designed to make attendance management effortless, accurate, and intelligent.</SectionSubtext>
+            <SectionHeading isVisible={featuresVisible}>Everything a Modern School Needs for Attendance</SectionHeading>
+            <SectionSubtext isVisible={featuresVisible}>Built for administrators, teachers, and parents with transparency, alerts, and intelligent attendance controls.</SectionSubtext>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -324,8 +310,8 @@ const FacialRecognitionAttendance = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
             <SectionLabel text="How It Works" isVisible={howVisible} />
-            <SectionHeading isVisible={howVisible}>Simple. Smart. Automatic.</SectionHeading>
-            <SectionSubtext isVisible={howVisible}>From face registration to report generation — the entire process is fully automated.</SectionSubtext>
+            <SectionHeading isVisible={howVisible}>A Frictionless Workflow from Camera to Classroom Analytics</SectionHeading>
+            <SectionSubtext isVisible={howVisible}>Vultus Go senses presence, validates identity, and shares attendance insights across administration, teachers, and parents.</SectionSubtext>
           </div>
 
           <div className="relative max-w-5xl mx-auto">
@@ -364,8 +350,8 @@ const FacialRecognitionAttendance = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
             <SectionLabel text="System Modules" isVisible={modulesVisible} />
-            <SectionHeading isVisible={modulesVisible}>Comprehensive Modules</SectionHeading>
-            <SectionSubtext isVisible={modulesVisible}>Everything you need to manage attendance, users, and analytics in one platform.</SectionSubtext>
+            <SectionHeading isVisible={modulesVisible}>A Clear View of Everyday School Attendance</SectionHeading>
+            <SectionSubtext isVisible={modulesVisible}>Review attendance activity, manage student records, and keep school teams informed in one place.</SectionSubtext>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -491,6 +477,58 @@ const FacialRecognitionAttendance = () => {
               <ProductDetailsLink />
       </section>
 
+
+      {/* ========== PRODUCT PERFORMANCE & PRICING ========== */}
+      <section aria-label="Product performance and pricing" className="relative w-full py-24 lg:py-32 overflow-hidden bg-white">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <SectionLabel text="Performance" isVisible={true} />
+            <SectionHeading isVisible={true}>Performance Built for Real School Schedules</SectionHeading>
+            <SectionSubtext isVisible={true}>Product performance figures and security capabilities published on the dedicated Vultus Go product page.</SectionSubtext>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {[{value:"96.8%",label:"Recognition accuracy"},{value:"1.8 sec",label:"Attendance speed"},{value:"22",label:"Faces per frame"},{value:"AES-256",label:"Data encryption"}].map((item) => (
+              <div key={item.label} className="p-8 bg-surface-50 border border-surface-100 rounded-2xl text-center">
+                <p className="text-3xl lg:text-4xl font-bold text-brand-600 mb-3">{item.value}</p>
+                <p className="text-sm font-semibold text-surface-600">{item.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <SectionLabel text="Simple Annual Pricing" isVisible={true} />
+            <SectionHeading isVisible={true}>₹70 per Student, per Year</SectionHeading>
+            <SectionSubtext isVisible={true}>One simple annual price. Total cost is the number of students multiplied by ₹70.</SectionSubtext>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="p-8 lg:p-10 bg-black text-white rounded-3xl">
+              <p className="text-sm uppercase tracking-widest text-brand-300 mb-4">Vultus Go plan</p>
+              <p className="text-5xl font-bold mb-2">₹70 <span className="text-lg font-medium text-surface-300">/ student / year</span></p>
+              <p className="text-sm text-surface-300 mb-8">Approximately ₹5.83 per student per month, billed once a year.</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                {["Face attendance for every student","Liveness & anti-spoofing checks","Live admin dashboard","Daily, monthly & custom reports","Parent SMS alerts","Unknown person alerts","Multi-camera & CCTV support","Onboarding and support included"].map(item => <li key={item} className="flex gap-2"><FiCheck className="text-brand-400 shrink-0" />{item}</li>)}
+              </ul>
+            </div>
+            <div className="p-8 lg:p-10 bg-surface-50 border border-surface-100 rounded-3xl">
+              <p className="text-sm uppercase tracking-widest text-brand-600 mb-3">Annual cost examples</p>
+              <div className="space-y-5">
+                {[{count:"200 students",cost:"₹14,000"},{count:"500 students",cost:"₹35,000"},{count:"1,000 students",cost:"₹70,000"},{count:"2,500 students",cost:"₹1,75,000"}].map(item => <div key={item.count} className="flex items-center justify-between border-b border-surface-200 pb-4"><span className="text-surface-600">{item.count}</span><strong className="text-xl text-black">{item.cost}<span className="text-xs font-normal text-surface-500"> / year</span></strong></div>)}
+              </div>
+              <p className="text-xs text-surface-500 mt-5">Illustrative totals calculated at the published rate of ₹70 per student per year.</p>
+            </div>
+          </div>
+          <div className="mt-12 p-8 lg:p-10 border border-brand-200 bg-brand-50/50 rounded-3xl">
+            <h3 className="text-2xl font-bold text-black mb-3">Compare Annual Pricing</h3>
+            <p className="text-surface-600 mb-7">The product page compares Vultus Go’s ₹70 annual price with an older-tool reference price of ₹70 per student per month (₹840 per year).</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div><p className="text-sm text-surface-500 mb-1">Older tools / year</p><p className="text-2xl font-bold text-surface-700">₹840</p></div>
+              <div><p className="text-sm text-surface-500 mb-1">Vultus Go / year</p><p className="text-2xl font-bold text-brand-600">₹70</p></div>
+              <div><p className="text-sm text-surface-500 mb-1">Listed annual saving</p><p className="text-2xl font-bold text-brand-600">₹770 (about 92%)</p></div>
+            </div>
+            <p className="text-xs text-surface-500 mt-5">Comparison is based on the reference pricing stated on the product page; confirm the applicable plan and scope during installation consultation.</p>
+          </div>
+        </div>
+      </section>
+
       {/* ========== FAQ ========== */}
       <section ref={faqRef} aria-label="FAQ" className="relative w-full py-24 lg:py-32 overflow-hidden bg-surface-50">
         <div className="absolute inset-0 z-0">
@@ -499,7 +537,7 @@ const FacialRecognitionAttendance = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
             <SectionLabel text="FAQ" isVisible={faqVisible} />
-            <SectionHeading isVisible={faqVisible}>Frequently Asked Questions</SectionHeading>
+            <SectionHeading isVisible={faqVisible}>Answers for School Leaders and IT Teams</SectionHeading>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
