@@ -171,7 +171,7 @@ const FacialRecognitionAttendance = () => {
                 Turn school arrival routines into intelligent automation with facial recognition, live attendance logs, and school-ready insights. Designed for administrators, teachers, and parents.
               </p>
               <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
+                <Link to="/contact#contact-form" state={{ inquiryType: "installation_request" }} className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
                   Book Installation <FiArrowRight size={18} />
                 </Link>
                 <a href="https://vultusgo-product.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-surface-200 hover:border-brand-300 text-surface-700 hover:text-brand-600 font-semibold rounded-2xl transition-all hover:-translate-y-0.5 bg-white">
@@ -594,7 +594,7 @@ const FacialRecognitionAttendance = () => {
                 Request a live demo or speak with our team to discover how the AI-Powered Facial Recognition Attendance System can benefit your organization.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
+                <Link to="/contact#contact-form" state={{ inquiryType: "installation_request" }} className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
                   Book Installation <FiArrowRight size={18} />
                 </Link>
                 <a href="https://vultusgo-product.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold rounded-2xl transition-all hover:-translate-y-0.5">
