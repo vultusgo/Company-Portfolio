@@ -1,30 +1,10 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiCheck, FiAlertCircle, FiClock, FiArrowDown, } from "react-icons/fi";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { init, send } from "@emailjs/browser";
 import Navbar from "./Navbar";
 import Footer from "./Footer"
 import { contactInfo as company, mailtoHref, telHref } from "../data/contactInfo";
-
-/* ============================================================
-   CONFIGURATION
-   ============================================================ */
-
-// EmailJS Configuration
-// These values should be stored in environment variables
-// Create a .env file in the root directory with:
-// VITE_EMAILJS_SERVICE_ID=your_service_id
-// VITE_EMAILJS_TEMPLATE_ID=your_template_id
-// VITE_EMAILJS_PUBLIC_KEY=your_public_key
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "";
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "";
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "";
-
-// Initialize EmailJS
-if (EMAILJS_PUBLIC_KEY) {
-  init(EMAILJS_PUBLIC_KEY);
-}
 
 /* ============================================================
    DATA
@@ -136,6 +116,9 @@ const TextareaField = ({ id, name, label, required, value, onChange, error }) =>
    ============================================================ */
 
 const ContactPage = () => {
+  const location = useLocation();
+  const initialInquiryType = ["demo_request", "installation_request"].includes(location.state?.inquiryType) ? location.state.inquiryType : "project_contact";
+  const submissionLockRef = useRef(false);
   const [heroRef, heroVisible] = useScrollReveal({ threshold: 0.1 });
   const [formRef, formVisible] = useScrollReveal({ threshold: 0.1 });
   const [whyRef, whyVisible] = useScrollReveal({ threshold: 0.1 });
@@ -144,9 +127,11 @@ const ContactPage = () => {
   const [faqOpenIndex, setFaqOpenIndex] = useState(null);
 
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [inquiryType, setInquiryType] = useState(initialInquiryType);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitError, setSubmitError] = useState(""); // 'success' | 'error' | null
 
   const validateForm = () => {
     const newErrors = {};
@@ -186,43 +171,43 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (submissionLockRef.current || !validateForm()) return;
 
+    submissionLockRef.current = true;
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setSubmitError("");
 
     try {
-      // Check if EmailJS is configured
-      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-        console.warn("EmailJS not configured. Please set up environment variables.");
-        // For development/demo purposes, show success message
-        // In production, this would send the email
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
-        setSubmitStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-        return;
-      }
-
-      // Send email using EmailJS
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_email: company.email,
+      const isProductInquiry = ["demo_request", "installation_request"].includes(inquiryType);
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        projectType: "Other",
+        details: "Subject: " + formData.subject.trim() + "\n\n" + formData.message.trim(),
+        inquiryType,
+        sourceDomain: window.location.hostname,
+        ...(isProductInquiry ? { productName: "Vultus Go Facial Recognition Attendance" } : {}),
       };
 
-      await send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
+      const response = await fetch("https://rj-portfolio-rt3u.onrender.com/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
 
-      // Success
+      if (!response.ok) throw new Error(result.message || "Unable to submit your inquiry. Please try again.");
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
+      setErrors({});
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error submitting contact inquiry:", error);
+      setSubmitError(error.message || "Unable to submit your inquiry. Please try again.");
       setSubmitStatus("error");
     } finally {
+      submissionLockRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -267,7 +252,7 @@ const ContactPage = () => {
       </section>
 
       {/* ========== CONTACT SECTION ========== */}
-      <section ref={formRef} aria-label="Contact Form" className="relative w-full py-24 lg:py-32 overflow-hidden bg-surface-50">
+      <section id="contact-form" ref={formRef} aria-label="Contact Form" className="relative w-full py-24 lg:py-32 overflow-hidden bg-surface-50">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-50/40 blur-[120px] rounded-full" />
         </div>
@@ -311,10 +296,10 @@ const ContactPage = () => {
                     <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mb-4">
                       <FiCheck size={28} className="text-brand-500" />
                     </div>
-                    <h3 className="text-xl font-bold text-black mb-2">Message Sent Successfully!</h3>
-                    <p className="text-surface-500 mb-6">Thank you for contacting Vultus Go. We've received your message and will get back to you as soon as possible.</p>
+                    <h3 className="text-xl font-bold text-black mb-2">Inquiry Submitted Successfully!</h3>
+                    <p className="text-surface-500 mb-6">Thank you for contacting Vultus Go. We've received your inquiry and will get back to you as soon as possible.</p>
                     <button
-                      onClick={() => setSubmitStatus(null)}
+                      onClick={() => { setSubmitStatus(null); setSubmitError(""); }}
                       className="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition-all"
                     >
                       Send Another Message
@@ -326,7 +311,7 @@ const ContactPage = () => {
                       <FiAlertCircle size={28} className="text-red-500" />
                     </div>
                     <h3 className="text-xl font-bold text-black mb-2">Something Went Wrong</h3>
-                    <p className="text-surface-500 mb-6">We couldn't send your message. Please try again in a few moments or email us directly at {company.email}</p>
+                    <p className="text-surface-500 mb-6">{submitError || "Unable to submit your message. Please try again in a few moments or email us directly at " + company.email}</p>
                     <button
                       onClick={() => setSubmitStatus(null)}
                       className="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition-all"
@@ -336,6 +321,14 @@ const ContactPage = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                      <label htmlFor="inquiryType" className="block text-xs font-semibold uppercase tracking-wider text-surface-500">Inquiry Type</label>
+                      <select id="inquiryType" name="inquiryType" value={inquiryType} onChange={(e) => setInquiryType(e.target.value)} className="w-full px-5 py-3.5 bg-white border border-surface-200 rounded-xl outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all text-sm text-black">
+                        <option value="project_contact">General Inquiry</option>
+                        <option value="demo_request">Request a Product Demo</option>
+                        <option value="installation_request">Request Installation</option>
+                      </select>
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <InputField
                         id="name"
