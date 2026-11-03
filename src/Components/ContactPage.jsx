@@ -329,7 +329,7 @@ const ContactPage = () => {
                         <option value="installation_request">Request Installation</option>
                       </select>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <InputField
                         id="name"
                         name="name"
