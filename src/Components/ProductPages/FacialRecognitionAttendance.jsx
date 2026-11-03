@@ -110,6 +110,20 @@ const SectionSubtext = ({ children, isVisible, delay = 200 }) => (
   </p>
 );
 
+
+const ProductDetailsLink = () => (
+  <div className="relative z-10 mt-10 flex justify-center px-6">
+    <a
+      href="https://vultusgo-product.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 rounded-xl border border-brand-200 bg-white px-5 py-3 text-sm font-semibold text-brand-600 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-400 hover:bg-brand-50 hover:shadow-md"
+    >
+      Explore Complete Product Details <FiArrowRight size={16} />
+    </a>
+  </div>
+);
+
 /* ============================================================
    PRODUCT PAGE
    ============================================================ */
@@ -205,6 +219,7 @@ const FacialRecognitionAttendance = () => {
             </div>
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== OVERVIEW ========== */}
@@ -232,6 +247,7 @@ const FacialRecognitionAttendance = () => {
             </div>
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== PROBLEMS IT SOLVES ========== */}
@@ -264,6 +280,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== KEY FEATURES ========== */}
@@ -297,6 +314,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== HOW IT WORKS ========== */}
@@ -336,6 +354,7 @@ const FacialRecognitionAttendance = () => {
             </div>
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== MODULES ========== */}
@@ -369,6 +388,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== INDUSTRIES ========== */}
@@ -401,6 +421,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== BENEFITS ========== */}
@@ -439,6 +460,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== TECHNOLOGY ========== */}
@@ -467,6 +489,7 @@ const FacialRecognitionAttendance = () => {
             ))}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== FAQ ========== */}
@@ -512,6 +535,7 @@ const FacialRecognitionAttendance = () => {
             })}
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
 
       {/* ========== FINAL CTA ========== */}
@@ -543,6 +567,7 @@ const FacialRecognitionAttendance = () => {
             </div>
           </div>
         </div>
+              <ProductDetailsLink />
       </section>
     </>
   );
