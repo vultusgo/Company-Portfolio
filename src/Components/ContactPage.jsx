@@ -190,7 +190,7 @@ const ContactPage = () => {
         ...(isProductInquiry ? { productName: "Vultus Go Facial Recognition Attendance" } : {}),
       };
 
-      const response = await fetch("https://rj-portfolio-rt3u.onrender.com/api/contact", {
+      const response = await fetch("https://rj-portfolio-1.onrender.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
