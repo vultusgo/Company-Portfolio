@@ -186,11 +186,11 @@ const FacialRecognitionAttendance = () => {
               </p>
               <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
                 <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/30 hover:-translate-y-0.5">
-                  Request a Demo <FiArrowRight size={18} />
+                  Book Installation <FiArrowRight size={18} />
                 </Link>
-                <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-surface-200 hover:border-brand-300 text-surface-700 hover:text-brand-600 font-semibold rounded-2xl transition-all hover:-translate-y-0.5 bg-white">
-                  Contact Sales
-                </Link>
+                <a href="https://vultusgo-product.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-surface-200 hover:border-brand-300 text-surface-700 hover:text-brand-600 font-semibold rounded-2xl transition-all hover:-translate-y-0.5 bg-white">
+                  Product Details <FiArrowRight size={18} />
+                </a>
               </div>
             </div>
 
