@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   FiCpu, FiCamera, FiCheck, FiClock, FiUsers, FiShield,
   FiWifi, FiBarChart2, FiLock, FiZap, FiMonitor, FiCloud,
-  FiArrowRight, FiArrowDown,
+  FiArrowRight, FiArrowDown, FiCalendar,
 } from "react-icons/fi";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
